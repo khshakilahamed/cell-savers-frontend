@@ -1,12 +1,15 @@
 "use client";
 
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Divider, message } from "antd";
 import loginImage from "./../../assets/Login.png";
 import Image from "next/image";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import { SubmitHandler } from "react-hook-form";
 import Link from "next/link";
+import { useUserLoginMutation } from "@/redux/api/authApi";
+import { useRouter } from "next/navigation";
+import { storeUserInfo } from "@/services/auth.service";
 
 type FormValues = {
   email: string;
@@ -14,10 +17,22 @@ type FormValues = {
 };
 
 const LoginPage = () => {
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const [userLogin, { isLoading }] = useUserLoginMutation();
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      console.log(data);
-    } catch (error) {}
+      const res = await userLogin(data).unwrap();
+      if (res.accessToken && !isLoading) {
+        message.success("Successfully logged in");
+        storeUserInfo({ accessToken: res?.accessToken });
+        router.push("/");
+      } else {
+        message.error("Access token not found");
+      }
+    } catch (error) {
+      message.error("Something went wrong");
+    }
   };
   return (
     <div className=" w-full">
@@ -58,13 +73,18 @@ const LoginPage = () => {
               </div>
               <p className=" text-red-500 pb-2">Forgot password?</p>
 
-              <Button type="primary" htmlType="submit" className="uppercase">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="uppercase"
+                loading={isLoading ? true : false}
+              >
                 Login
               </Button>
 
               <p className="mt-6">
                 Don&apos;t have account?{" "}
-                <Link href="/register">Signup here</Link>
+                <Link href="/register">Sign up here</Link>
               </p>
             </Form>
           </div>

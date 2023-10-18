@@ -7,6 +7,7 @@ import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import { SubmitHandler } from "react-hook-form";
 import Link from "next/link";
+import { useUserRegisterMutation } from "@/redux/api/authApi";
 
 type FormValues = {
   email: string;
@@ -14,9 +15,13 @@ type FormValues = {
 };
 
 const RegisterPage = () => {
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const [userRegister] = useUserRegisterMutation();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      console.log(data);
+      //   console.log(data);
+      const res = await userRegister(data);
+      console.log(res);
     } catch (error) {}
   };
   return (
@@ -42,7 +47,7 @@ const RegisterPage = () => {
                 <div className="w-[49%]">
                   <FormInput
                     name="firstName"
-                    type="test"
+                    type="text"
                     size="large"
                     label="First Name"
                     placeholder="First Name"
@@ -50,8 +55,8 @@ const RegisterPage = () => {
                 </div>
                 <div className="w-[49%]">
                   <FormInput
-                    name="LastName"
-                    type="test"
+                    name="lastName"
+                    type="text"
                     size="large"
                     label="Last Name"
                     placeholder="Last Name"

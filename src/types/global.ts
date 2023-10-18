@@ -24,3 +24,39 @@ export type IGenericErrorMessage = {
   path: string | number;
   message: string;
 };
+
+export interface IRole {
+  id: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
+
+export interface IUser {
+  id: string;
+  email: string;
+  roleId: string;
+  role: IRole;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
+
+export interface ICustomer {
+  id: string;
+  firstName: string;
+  lastName: string;
+  profilePicture: string;
+  gender: string;
+  contactNo: string;
+  emergencyContactNo: string;
+  presentAddress: string;
+  permanentAddress: string;
+  userId: string;
+  user: IUser;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}

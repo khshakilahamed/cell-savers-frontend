@@ -1,25 +1,87 @@
 "use client";
 
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import Title from "antd/es/typography/Title";
-import { Avatar, Button, Dropdown, Space, Divider } from "antd";
 import { INavItems } from "../../../types/global";
 import { usePathname } from "next/navigation";
+import { getUserInfo } from "@/services/auth.service";
+import Link from "next/link";
+import { useMyProfileQuery } from "@/redux/api/userApi";
+import AvatarMenu from "../AvatarMenu/AvatarMenu";
+import dynamic from "next/dynamic";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { showSidebarDrawer } from "@/redux/slices/sidebarSlice";
+import { MenuUnfoldOutlined } from "@ant-design/icons";
 
 const { Header, Content } = Layout;
 
 type IProps = {
-  avatarItems: INavItems;
+  avatar?: React.ReactElement | React.ReactNode;
   menuItems: INavItems;
 };
 
-const Navbar = ({ avatarItems, menuItems }: IProps) => {
+const Navbar = () => {
   const pathname = usePathname();
+  const user = getUserInfo();
+
+  const menuItems = [
+    {
+      key: "/",
+      label: (
+        <Link className="hidden lg:block" href="/">
+          Home
+        </Link>
+      ),
+    },
+    {
+      key: "/services",
+      label: (
+        <Link className="hidden lg:block" href="/services">
+          Services
+        </Link>
+      ),
+    },
+    {
+      key: "/blog",
+      label: (
+        <Link className="hidden lg:block" href="/blogs">
+          Blogs
+        </Link>
+      ),
+    },
+    {
+      key: "/about-us",
+      label: (
+        <Link className="hidden lg:block" href="/about-us">
+          About us
+        </Link>
+      ),
+    },
+    {
+      key: "/contact-us",
+      label: (
+        <Link className="hidden lg:block" href="/contact-us">
+          Contact us
+        </Link>
+      ),
+    },
+  ];
+
+  const dispatch = useAppDispatch();
+
   return (
     <Layout className="layout">
-      <Header className="flex items-center">
+      <Header className="flex gap-2 items-center">
+        <MenuUnfoldOutlined
+          className="lg:hidden text-white text-2xl"
+          onClick={() => dispatch(showSidebarDrawer())}
+        />
         <Content>
-          <Title className="text-white mb-0">CellSavers</Title>
+          <Link href="/">
+            <Title className="text-white mb-0 flex gap-2 text-xl md:text-2xl lg:text-4xl">
+              CellSavers
+            </Title>
+          </Link>
         </Content>
         <Menu
           theme="dark"
@@ -28,23 +90,10 @@ const Navbar = ({ avatarItems, menuItems }: IProps) => {
           selectedKeys={[pathname]}
           items={menuItems}
         />
-        <Dropdown
-          menu={{ items: avatarItems }}
-          placement="bottomRight"
-          trigger={["click"]}
-        >
-          <Space>
-            <Avatar
-              className="bg-gray-400 cursor-pointer"
-              size={50}
-              //   icon={<UserOutlined />}
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            ></Avatar>
-          </Space>
-        </Dropdown>
+        {(user as boolean) && <AvatarMenu />}
       </Header>
     </Layout>
   );
 };
 
-export default Navbar;
+export default dynamic(() => Promise.resolve(Navbar), { ssr: false });
