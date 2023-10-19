@@ -8,6 +8,7 @@ import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import UploadImage from "@/components/ui/UploadImage/UploadImage";
 import { genderOptions } from "@/constants/global";
 import { useAddCustomerMutation } from "@/redux/api/customerApi";
+import { useAddTechnicianMutation } from "@/redux/api/userApi";
 import { Button, Upload, message } from "antd";
 import { Col, Row } from "antd";
 import { SubmitHandler } from "react-hook-form";
@@ -26,10 +27,12 @@ import { SubmitHandler } from "react-hook-form";
 // };
 
 const CreateTechnician = () => {
-  const [addCustomer, { isError, error }] = useAddCustomerMutation();
+  const [addTechnician, { isLoading, error }] = useAddTechnicianMutation();
 
   const onSubmit = async (data: any) => {
     try {
+      message.loading("Creating...");
+
       let file;
       if (data?.file) {
         file = data["file"];
@@ -53,10 +56,10 @@ const CreateTechnician = () => {
         data["profilePicture"] = profilePicture;
       }
 
-      const res = await addCustomer(data).unwrap();
+      const res = await addTechnician(data).unwrap();
 
       if (res) {
-        message.success("Customer created successfully");
+        message.success("Technician created successfully");
       } else {
         message.error("Something went  wrong");
       }
@@ -67,7 +70,7 @@ const CreateTechnician = () => {
   };
   return (
     <div>
-      <ActionBar title="Create Customer"></ActionBar>
+      <ActionBar title="Create Technician"></ActionBar>
 
       <div>
         <Form submitHandler={onSubmit}>
@@ -216,7 +219,11 @@ const CreateTechnician = () => {
           </Row>
 
           <div className="my-3">
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={isLoading ? true : false}
+            >
               Submit
             </Button>
           </div>

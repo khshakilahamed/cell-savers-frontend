@@ -19,6 +19,7 @@ import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
 import CSModal from "@/components/ui/Modal/CSModal";
 import { useTechniciansQuery } from "@/redux/api/userApi";
+import { useDeleteCustomerAgentMutation } from "@/redux/api/customerAgentApi";
 
 const ManageTechnicianPage = () => {
   const { role } = getUserInfo() as any;
@@ -30,7 +31,7 @@ const ManageTechnicianPage = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
-  const [customerId, setCustomerId] = useState<string>("");
+  const [technicianId, setTechnicianId] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
@@ -48,13 +49,14 @@ const ManageTechnicianPage = () => {
 
   const { data, isLoading } = useTechniciansQuery();
 
-  const [deleteCustomer, { isLoading: isDeleteLoading }] =
-    useDeleteCustomerMutation();
+  const [deleteCustomerAgent, { isLoading: isDeleteLoading }] =
+    useDeleteCustomerAgentMutation();
 
   const deleteHandler = async (id: string) => {
     // console.log(id);
     try {
-      const res = await deleteCustomer(id).unwrap();
+      message.loading("Deleting...");
+      const res = await deleteCustomerAgent(id).unwrap();
 
       if (isDeleteLoading) {
         message.loading("Deleting...");
@@ -109,7 +111,7 @@ const ManageTechnicianPage = () => {
               danger
               onClick={() => {
                 setOpen(true);
-                setCustomerId(data?.id);
+                setTechnicianId(data?.id);
               }}
             >
               <DeleteOutlined />
@@ -192,9 +194,9 @@ const ManageTechnicianPage = () => {
         title="Remove admin"
         isOpen={open}
         closeModal={() => setOpen(false)}
-        handleOk={() => deleteHandler(customerId)}
+        handleOk={() => deleteHandler(technicianId)}
       >
-        <p className="my-5">Do you want to remove this customer?</p>
+        <p className="my-5">Do you want to remove this technician?</p>
       </CSModal>
     </div>
   );
