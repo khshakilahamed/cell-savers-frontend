@@ -18,8 +18,9 @@ import { getUserInfo } from "@/services/auth.service";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
 import CSModal from "@/components/ui/Modal/CSModal";
+import { useTechniciansQuery } from "@/redux/api/userApi";
 
-const ManageCustomerPage = () => {
+const ManageTechnicianPage = () => {
   const { role } = getUserInfo() as any;
   const query: Record<string, any> = {};
 
@@ -45,10 +46,7 @@ const ManageCustomerPage = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
 
-  const { data, isLoading } = useCustomersQuery({ ...query });
-
-  const customers = data?.customers;
-  const meta = data?.meta;
+  const { data, isLoading } = useTechniciansQuery();
 
   const [deleteCustomer, { isLoading: isDeleteLoading }] =
     useDeleteCustomerMutation();
@@ -116,12 +114,12 @@ const ManageCustomerPage = () => {
             >
               <DeleteOutlined />
             </Button>
-            <Link href={`/${role}/manage-customer/${data?.id}/edit`}>
+            <Link href={`/${role}/manage-technician/${data?.id}/edit`}>
               <Button type="primary">
                 <EditOutlined />
               </Button>
             </Link>
-            <Link href={`/${role}/manage-customer/${data?.id}/details`}>
+            <Link href={`/${role}/manage-technician/${data?.id}/details`}>
               <Button type="primary">
                 <InfoCircleOutlined />
               </Button>
@@ -151,17 +149,17 @@ const ManageCustomerPage = () => {
 
   return (
     <div>
-      <ActionBar title="Customers">
-        <Input
+      <ActionBar title="Technicians">
+        {/* <Input
           size="large"
           placeholder="Search"
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
             width: "20%",
           }}
-        />
+        /> */}
         <div>
-          <Link href={`/${role}/manage-customer/create-customer`}>
+          <Link href={`/${role}/manage-technician/create-technician`}>
             <Button type="primary">Create</Button>
           </Link>
           {(!!sortBy || !!sortOrder || !!searchTerm) && (
@@ -180,9 +178,9 @@ const ManageCustomerPage = () => {
         <CSTable
           loading={isLoading}
           columns={columns}
-          dataSource={customers}
+          dataSource={data}
           pageSize={size}
-          totalPages={meta?.total}
+          // totalPages={meta?.total}
           showSizeChanger={true}
           onPaginationChange={onPaginationChange}
           onTableChange={onTableChange}
@@ -202,4 +200,4 @@ const ManageCustomerPage = () => {
   );
 };
 
-export default ManageCustomerPage;
+export default ManageTechnicianPage;

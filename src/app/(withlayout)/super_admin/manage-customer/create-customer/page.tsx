@@ -7,26 +7,33 @@ import FormTextArea from "@/components/Forms/FormTextArea";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import UploadImage from "@/components/ui/UploadImage/UploadImage";
 import { genderOptions } from "@/constants/global";
-import {
-  useCustomerQuery,
-  useUpdateCustomerMutation,
-} from "@/redux/api/customerApi";
-import { Button, message } from "antd";
+import { useAddCustomerMutation } from "@/redux/api/customerApi";
+import { Button, Upload, message } from "antd";
 import { Col, Row } from "antd";
 import { SubmitHandler } from "react-hook-form";
 
-const EditCustomer = ({ params }: { params: any }) => {
-  const { id } = params;
+// type FormValues = {
+//   email: string;
+//   password: string;
+//   firstName: string;
+//   lastName: string;
+//   profilePicture: string;
+//   gender: string;
+//   contactNo: string;
+//   emergencyContactNo: string;
+//   presentAddress: string;
+//   permanentAddress: string;
+// };
 
-  const { data } = useCustomerQuery(id);
-  const [updateCustomer, { isLoading }] = useUpdateCustomerMutation();
+const CreateCustomer = () => {
+  const [addCustomer, { isError, error }] = useAddCustomerMutation();
 
-  const onSubmit = async (updatedData: any) => {
+  const onSubmit = async (data: any) => {
     try {
       let file;
-      if (updatedData?.file) {
-        file = updatedData["file"];
-        delete updatedData["file"];
+      if (data?.file) {
+        file = data["file"];
+        delete data["file"];
 
         const formData = new FormData();
         formData.append("file", file);
@@ -43,17 +50,13 @@ const EditCustomer = ({ params }: { params: any }) => {
         const fileUploadResponse = await fileUpload.json();
         const profilePicture = fileUploadResponse.url;
 
-        updatedData["profilePicture"] = profilePicture;
+        data["profilePicture"] = profilePicture;
       }
 
-      const res = await updateCustomer({ id, updatedData }).unwrap();
+      const res = await addCustomer(data).unwrap();
 
-      if (isLoading) {
-        message.loading("Updating...");
-      }
-
-      if (res && !isLoading) {
-        message.success("Customer updated successfully");
+      if (res) {
+        message.success("Customer created successfully");
       } else {
         message.error("Something went  wrong");
       }
@@ -62,24 +65,12 @@ const EditCustomer = ({ params }: { params: any }) => {
       message.error(error.message);
     }
   };
-
-  const defaultValues = {
-    firstName: data?.firstName || "",
-    lastName: data?.lastName || "",
-    email: data?.email || "",
-    gender: data?.gender || "",
-    contactNo: data?.contactNo || "",
-    emergencyContactNo: data?.emergencyContactNo || "",
-    permanentAddress: data?.permanentAddress || "",
-    presentAddress: data?.presentAddress || "",
-    // profilePicture: data?.status || "",
-  };
   return (
     <div>
-      <ActionBar title="Update Customer"></ActionBar>
+      <ActionBar title="Create Customer"></ActionBar>
 
       <div>
-        <Form submitHandler={onSubmit} defaultValues={defaultValues}>
+        <Form submitHandler={onSubmit}>
           <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
             <Col
               className="gutter-row"
@@ -125,6 +116,21 @@ const EditCustomer = ({ params }: { params: any }) => {
                 size="large"
                 label="Email"
                 placeholder="johndoe@gmail.com"
+              />
+            </Col>
+            <Col
+              className="gutter-row"
+              span={6}
+              style={{
+                marginBottom: "10px",
+              }}
+            >
+              <FormInput
+                type="password"
+                name="password"
+                size="large"
+                label="Password"
+                placeholder="XXXXXX"
               />
             </Col>
             <Col
@@ -210,11 +216,7 @@ const EditCustomer = ({ params }: { params: any }) => {
           </Row>
 
           <div className="my-3">
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={isLoading ? true : false}
-            >
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </div>
@@ -224,4 +226,4 @@ const EditCustomer = ({ params }: { params: any }) => {
   );
 };
 
-export default EditCustomer;
+export default CreateCustomer;

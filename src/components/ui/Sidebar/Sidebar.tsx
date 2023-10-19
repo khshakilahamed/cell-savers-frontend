@@ -72,7 +72,7 @@ const Sidebar = ({
       </Layout>
       <Layout className="lg:hidden block">
         <Drawer
-          title="Basic Drawer"
+          title="Menus"
           placement="left"
           onClose={() => {
             dispatch(onSidebarClose());

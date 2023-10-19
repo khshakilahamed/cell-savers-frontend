@@ -77,12 +77,12 @@ export const sidebarItems = (role: string) => {
 
   const superAdminSidebarItems: MenuProps["items"] = [
     ...defaultSidebarItems,
-    ...commonAdminSidebarItems,
     {
       label: <Link href={`/${role}/manage-admin`}>Manage-Admins</Link>,
       icon: <TableOutlined />,
       key: `/${role}/manage-admin`,
     },
+    ...commonAdminSidebarItems,
   ];
 
   const technicianSidebarItems: MenuProps["items"] = [...defaultSidebarItems];

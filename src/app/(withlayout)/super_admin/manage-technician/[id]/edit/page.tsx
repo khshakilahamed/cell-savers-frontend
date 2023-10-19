@@ -8,21 +8,22 @@ import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import UploadImage from "@/components/ui/UploadImage/UploadImage";
 import { genderOptions } from "@/constants/global";
 import {
-  useCustomerQuery,
-  useUpdateCustomerMutation,
-} from "@/redux/api/customerApi";
+  useCustomerAgentQuery,
+  useUpdateCustomerAgentMutation,
+} from "@/redux/api/customerAgentApi";
 import { Button, message } from "antd";
 import { Col, Row } from "antd";
 import { SubmitHandler } from "react-hook-form";
 
-const EditCustomer = ({ params }: { params: any }) => {
+const EditTechnician = ({ params }: { params: any }) => {
   const { id } = params;
 
-  const { data } = useCustomerQuery(id);
-  const [updateCustomer, { isLoading }] = useUpdateCustomerMutation();
+  const { data } = useCustomerAgentQuery(id);
+  const [updateCustomerAgent, { isLoading }] = useUpdateCustomerAgentMutation();
 
   const onSubmit = async (updatedData: any) => {
     try {
+      message.loading("Updating...");
       let file;
       if (updatedData?.file) {
         file = updatedData["file"];
@@ -46,11 +47,7 @@ const EditCustomer = ({ params }: { params: any }) => {
         updatedData["profilePicture"] = profilePicture;
       }
 
-      const res = await updateCustomer({ id, updatedData }).unwrap();
-
-      if (isLoading) {
-        message.loading("Updating...");
-      }
+      const res = await updateCustomerAgent({ id, updatedData }).unwrap();
 
       if (res && !isLoading) {
         message.success("Customer updated successfully");
@@ -76,7 +73,7 @@ const EditCustomer = ({ params }: { params: any }) => {
   };
   return (
     <div>
-      <ActionBar title="Update Customer"></ActionBar>
+      <ActionBar title="Update Technician"></ActionBar>
 
       <div>
         <Form submitHandler={onSubmit} defaultValues={defaultValues}>
@@ -224,4 +221,4 @@ const EditCustomer = ({ params }: { params: any }) => {
   );
 };
 
-export default EditCustomer;
+export default EditTechnician;

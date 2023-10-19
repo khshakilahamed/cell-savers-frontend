@@ -72,10 +72,12 @@ const Navbar = () => {
   return (
     <Layout className="layout">
       <Header className="flex gap-2 items-center">
-        <MenuUnfoldOutlined
-          className="lg:hidden text-white text-2xl"
-          onClick={() => dispatch(showSidebarDrawer())}
-        />
+        {pathname !== "/" && (
+          <MenuUnfoldOutlined
+            className="lg:hidden text-white text-2xl"
+            onClick={() => dispatch(showSidebarDrawer())}
+          />
+        )}
         <Content>
           <Link href="/">
             <Title className="text-white mb-0 flex gap-2 text-xl md:text-2xl lg:text-4xl">

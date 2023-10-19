@@ -5,6 +5,14 @@ const CUSTOMER_URL = "/customers";
 
 export const customerApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
+    addCustomer: build.mutation({
+      query: (data) => ({
+        url: `${CUSTOMER_URL}`,
+        method: "POST",
+        data,
+      }),
+      invalidatesTags: [tagTypes.customer],
+    }),
     // get all customer
     customers: build.query({
       query: (arg: Record<string, any>) => {
@@ -35,7 +43,7 @@ export const customerApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: `${CUSTOMER_URL}/${data.id}`,
         method: "PATCH",
-        data: data.body,
+        data: data.updatedData,
       }),
       invalidatesTags: [tagTypes.customer],
     }),
@@ -52,6 +60,7 @@ export const customerApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useAddCustomerMutation,
   useCustomersQuery,
   useCustomerQuery,
   useUpdateCustomerMutation,
