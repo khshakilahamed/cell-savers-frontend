@@ -71,3 +71,12 @@ export interface IService {
   updatedAt: string;
   __v?: number;
 }
+
+export interface ITimeSlot {
+  id: string;
+  startTime: string;
+  endTime: number;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}

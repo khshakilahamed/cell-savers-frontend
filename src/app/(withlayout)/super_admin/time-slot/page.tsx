@@ -19,8 +19,12 @@ import {
   useDeleteServiceMutation,
   useServicesQuery,
 } from "@/redux/api/serviceApi";
+import {
+  useDeleteTimeSlotMutation,
+  useTimeSlotsQuery,
+} from "@/redux/api/timeSlotApi";
 
-const ManageServicePage = () => {
+const ManageTimeSlotPage = () => {
   const { role } = getUserInfo() as any;
   const query: Record<string, any> = {};
 
@@ -46,26 +50,26 @@ const ManageServicePage = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
 
-  const { data, isLoading } = useServicesQuery({ ...query });
+  const { data, isLoading } = useTimeSlotsQuery({ ...query });
 
-  const services = data?.services;
+  const timeSlots = data?.timeSlots;
   const meta = data?.meta;
 
-  const [deleteService, { isLoading: isDeleteLoading }] =
-    useDeleteServiceMutation();
+  const [deleteTimeSlot, { isLoading: isDeleteLoading }] =
+    useDeleteTimeSlotMutation();
 
   const deleteHandler = async (id: string) => {
     // console.log(id);
     try {
       message.loading("Deleting...");
-      const res = await deleteService(id).unwrap();
+      const res = await deleteTimeSlot(id).unwrap();
 
+      setOpen(false);
       if (isDeleteLoading) {
         message.loading("Deleting...");
       }
       if (res) {
-        setOpen(false);
-        message.success("Service Deleted Successfully!");
+        message.success("Time Slot Deleted Successfully!");
       } else {
         message.error("Something went wrong!");
       }
@@ -76,13 +80,13 @@ const ManageServicePage = () => {
 
   const columns = [
     {
-      title: "Title",
-      dataIndex: "title",
+      title: "Start Time",
+      dataIndex: "startTime",
       sorter: true,
     },
     {
-      title: "Price",
-      dataIndex: "price",
+      title: "End Time",
+      dataIndex: "endTime",
       sorter: true,
     },
     {
@@ -108,14 +112,9 @@ const ManageServicePage = () => {
             >
               <DeleteOutlined />
             </Button>
-            <Link href={`/${role}/service/${data?.id}/edit`}>
+            <Link href={`/${role}/time-slot/${data?.id}/edit`}>
               <Button type="primary">
                 <EditOutlined />
-              </Button>
-            </Link>
-            <Link href={`/${role}/service/${data?.id}/details`}>
-              <Button type="primary">
-                <InfoCircleOutlined />
               </Button>
             </Link>
           </div>
@@ -143,7 +142,7 @@ const ManageServicePage = () => {
 
   return (
     <div>
-      <ActionBar title="Service">
+      <ActionBar title="Time Slot">
         <Input
           size="large"
           placeholder="Search"
@@ -153,7 +152,7 @@ const ManageServicePage = () => {
           }}
         />
         <div>
-          <Link href={`/${role}/service/create-service`}>
+          <Link href={`/${role}/time-slot/create-time-slot`}>
             <Button type="primary">Create</Button>
           </Link>
           {(!!sortBy || !!sortOrder || !!searchTerm) && (
@@ -172,7 +171,7 @@ const ManageServicePage = () => {
         <CSTable
           loading={isLoading}
           columns={columns}
-          dataSource={services}
+          dataSource={timeSlots}
           pageSize={size}
           totalPages={meta?.total}
           showSizeChanger={true}
@@ -183,15 +182,15 @@ const ManageServicePage = () => {
       </div>
 
       <CSModal
-        title="Remove Service"
+        title="Remove Time Slot"
         isOpen={open}
         closeModal={() => setOpen(false)}
         handleOk={() => deleteHandler(adminId)}
       >
-        <p className="my-5">Do you want to remove this service?</p>
+        <p className="my-5">Do you want to remove this time slot?</p>
       </CSModal>
     </div>
   );
 };
 
-export default ManageServicePage;
+export default ManageTimeSlotPage;
