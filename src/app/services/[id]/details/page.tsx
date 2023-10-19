@@ -19,8 +19,6 @@ const ServiceDetails = ({ params }: { params: any }) => {
     );
   }
 
-  console.log(data);
-
   return (
     <div>
       <div className="flex-col gap-3 mt-10">

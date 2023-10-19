@@ -3,7 +3,7 @@ import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi";
 const CUSTOMER_AGENT_URL = "/customer-agents";
 
-export const customerAgentApi = baseApi.injectEndpoints({
+export const customerAgentApi: any = baseApi.injectEndpoints({
   endpoints: (build) => ({
     // get all customer agent
     customerAgents: build.query({
@@ -53,6 +53,16 @@ export const customerAgentApi = baseApi.injectEndpoints({
         tagTypes.superAdmin,
       ],
     }),
+    availableTechnicians: build.query({
+      query: (arg: Record<string, any>) => {
+        return {
+          url: `${CUSTOMER_AGENT_URL}/available-technician`,
+          method: "GET",
+          params: arg,
+        };
+      },
+      providesTags: [tagTypes.customerAgent, tagTypes.user],
+    }),
   }),
 });
 
@@ -61,4 +71,5 @@ export const {
   useCustomerAgentsQuery,
   useUpdateCustomerAgentMutation,
   useDeleteCustomerAgentMutation,
+  useAvailableTechniciansQuery,
 } = customerAgentApi;

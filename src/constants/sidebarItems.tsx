@@ -90,7 +90,12 @@ export const sidebarItems = (role: string) => {
   const customerSidebarItems: MenuProps["items"] = [
     ...defaultSidebarItems,
     {
-      label: <Link href={`/${role}/review`}>reviews</Link>,
+      label: <Link href={`/${role}/make-booking`}>Make Booking</Link>,
+      icon: <TableOutlined />,
+      key: `/${role}/make-booking`,
+    },
+    {
+      label: <Link href={`/${role}/review`}>Reviews</Link>,
       icon: <TableOutlined />,
       key: `/${role}/review`,
     },

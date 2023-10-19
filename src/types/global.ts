@@ -130,3 +130,24 @@ export interface IFaq {
   updatedAt: string;
   __v?: number;
 }
+
+export interface IBooking {
+  id: string;
+  bookingDate: string;
+  bookingStatus: string;
+  issueDescription: string;
+  issueStatus: String;
+  readyToReview: boolean;
+  customerId: string;
+  customer: ICustomer[];
+  customerAgentId: string;
+  customerAgent: ICustomerAgent;
+  serviceId: string;
+  service: IService;
+  slotId: string;
+  slot: ITimeSlot;
+  reviews: IReview[];
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}

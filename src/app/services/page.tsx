@@ -51,9 +51,7 @@ const Services = () => {
             size="large"
             placeholder="Search here..."
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              width: "25%",
-            }}
+            className="w-[300px]"
           />
           <button className="py-3 px-5 bg-blue-500 font-bold text-white rounded">
             Search
@@ -61,7 +59,7 @@ const Services = () => {
         </div>
         <Divider />
 
-        <div className="flex gap-5 justify-between">
+        <div className="flex flex-wrap justify-center lg:justify-between gap-5">
           {services?.map((service) => (
             <ServiceCard service={service} key={service.id} />
           ))}

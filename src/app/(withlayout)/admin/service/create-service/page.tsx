@@ -8,10 +8,7 @@ import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import UploadImage from "@/components/ui/UploadImage/UploadImage";
 import { genderOptions } from "@/constants/global";
 import { useAddServiceMutation } from "@/redux/api/serviceApi";
-import {
-  useAddAdminMutation,
-  useAddTechnicianMutation,
-} from "@/redux/api/userApi";
+
 import { Button, Upload, message } from "antd";
 import { Col, Row } from "antd";
 

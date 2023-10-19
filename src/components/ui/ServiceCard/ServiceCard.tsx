@@ -33,9 +33,11 @@ const ServiceCard = ({ service }: { service: IService }) => {
             &#2547; <span className="font-bold text-lg">{service?.price}</span>
           </p>
           <p>
-            <Button type="primary" className="uppercase">
-              Book Now
-            </Button>
+            <Link href={`${role}/selected-booking/${service?.id}`}>
+              <Button type="primary" className="uppercase">
+                Book Now
+              </Button>
+            </Link>
           </p>
         </div>
         <Divider />

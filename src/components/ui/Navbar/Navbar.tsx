@@ -22,7 +22,7 @@ type IProps = {
 
 const Navbar = () => {
   const pathname = usePathname();
-  const user = getUserInfo();
+  const user = getUserInfo() as any;
 
   const menuItems = [
     {
@@ -63,6 +63,30 @@ const Navbar = () => {
         <Link className="hidden lg:block" href="/contact-us">
           Contact us
         </Link>
+      ),
+    },
+    {
+      key: "/login",
+      label: (
+        <>
+          {!user.role && (
+            <Link className="hidden lg:block" href="/login">
+              Login
+            </Link>
+          )}
+        </>
+      ),
+    },
+    {
+      key: "/register",
+      label: (
+        <>
+          {!user?.role && (
+            <Link className="hidden lg:block" href="/register">
+              Register
+            </Link>
+          )}
+        </>
       ),
     },
   ];
