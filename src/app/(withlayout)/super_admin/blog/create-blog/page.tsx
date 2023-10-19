@@ -2,35 +2,25 @@
 
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
-import FormSelectField from "@/components/Forms/FormSelectField";
 import FormTextArea from "@/components/Forms/FormTextArea";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import UploadImage from "@/components/ui/UploadImage/UploadImage";
-import { genderOptions } from "@/constants/global";
-import {
-  useCustomerAgentQuery,
-  useUpdateCustomerAgentMutation,
-} from "@/redux/api/customerAgentApi";
-import {
-  useServiceQuery,
-  useUpdateServiceMutation,
-} from "@/redux/api/serviceApi";
+import { useAddBlogMutation } from "@/redux/api/blogApi";
+import { useAddServiceMutation } from "@/redux/api/serviceApi";
 import { Button, message } from "antd";
 import { Col, Row } from "antd";
 
-const EditAdmin = ({ params }: { params: any }) => {
-  const { id } = params;
+const CreateBlog = () => {
+  const [addBlog, { isLoading, error }] = useAddBlogMutation();
 
-  const { data } = useServiceQuery(id);
-  const [updateService, { isLoading }] = useUpdateServiceMutation();
-
-  const onSubmit = async (updatedData: any) => {
+  const onSubmit = async (data: any) => {
     try {
-      message.loading("Updating...");
+      message.loading("Creating...");
+
       let file;
-      if (updatedData?.file) {
-        file = updatedData["file"];
-        delete updatedData["file"];
+      if (data?.file) {
+        file = data["file"];
+        delete data["file"];
 
         const formData = new FormData();
         formData.append("file", file);
@@ -47,33 +37,27 @@ const EditAdmin = ({ params }: { params: any }) => {
         const fileUploadResponse = await fileUpload.json();
         const image = fileUploadResponse.url;
 
-        updatedData["image"] = image;
+        data["image"] = image;
       }
 
-      const res = await updateService({ id, updatedData }).unwrap();
+      const res = await addBlog(data).unwrap();
 
-      if (res && !isLoading) {
-        message.success("Service updated successfully");
+      if (res) {
+        message.success("Blog created successfully");
       } else {
-        message.error("Something went  wrong");
+        message.error("Something went wrong");
       }
     } catch (error: any) {
       console.log(message);
       message.error(error.message);
     }
   };
-
-  const defaultValues = {
-    title: data?.title || "",
-    price: data?.price || "",
-    description: data?.description || "",
-  };
   return (
     <div>
-      <ActionBar title="Update Service"></ActionBar>
+      <ActionBar title="Create Blog"></ActionBar>
 
       <div className="max-w-[400px]">
-        <Form submitHandler={onSubmit} defaultValues={defaultValues}>
+        <Form submitHandler={onSubmit}>
           <div>
             <Col
               className="gutter-row"
@@ -85,23 +69,8 @@ const EditAdmin = ({ params }: { params: any }) => {
                 type="text"
                 name="title"
                 size="large"
-                label="Service Title"
+                label="Title"
                 placeholder="Display fix"
-              />
-            </Col>
-
-            <Col
-              className="gutter-row"
-              style={{
-                marginBottom: "10px",
-              }}
-            >
-              <FormInput
-                type="number"
-                name="price"
-                size="large"
-                label="Price"
-                placeholder="150"
               />
             </Col>
 
@@ -113,8 +82,8 @@ const EditAdmin = ({ params }: { params: any }) => {
             >
               <FormTextArea
                 name="description"
-                label="Service Description"
-                placeholder="Write here service description"
+                label="Description"
+                placeholder="Write here blog"
               />
             </Col>
             <Col
@@ -142,4 +111,4 @@ const EditAdmin = ({ params }: { params: any }) => {
   );
 };
 
-export default EditAdmin;
+export default CreateBlog;

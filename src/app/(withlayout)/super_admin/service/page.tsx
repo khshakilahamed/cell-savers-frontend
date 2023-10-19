@@ -30,7 +30,7 @@ const ManageServicePage = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
-  const [adminId, setAdminId] = useState<string>("");
+  const [serviceId, setServiceId] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
@@ -103,7 +103,7 @@ const ManageServicePage = () => {
               danger
               onClick={() => {
                 setOpen(true);
-                setAdminId(data?.id);
+                setServiceId(data?.id);
               }}
             >
               <DeleteOutlined />
@@ -186,7 +186,7 @@ const ManageServicePage = () => {
         title="Remove Service"
         isOpen={open}
         closeModal={() => setOpen(false)}
-        handleOk={() => deleteHandler(adminId)}
+        handleOk={() => deleteHandler(serviceId)}
       >
         <p className="my-5">Do you want to remove this service?</p>
       </CSModal>

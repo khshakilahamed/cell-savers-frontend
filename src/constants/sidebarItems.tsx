@@ -54,7 +54,7 @@ export const sidebarItems = (role: string) => {
       key: `/${role}/time-slot`,
     },
     {
-      label: <Link href={`/${role}/role`}>Roles</Link>,
+      label: <Link href={`/${role}/role`}>User Role</Link>,
       icon: <TableOutlined />,
       key: `/${role}/role`,
     },

@@ -7,22 +7,19 @@ import FormTextArea from "@/components/Forms/FormTextArea";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import UploadImage from "@/components/ui/UploadImage/UploadImage";
 import { genderOptions } from "@/constants/global";
+import { useBlogQuery, useUpdateBlogMutation } from "@/redux/api/blogApi";
 import {
   useCustomerAgentQuery,
   useUpdateCustomerAgentMutation,
 } from "@/redux/api/customerAgentApi";
-import {
-  useServiceQuery,
-  useUpdateServiceMutation,
-} from "@/redux/api/serviceApi";
 import { Button, message } from "antd";
 import { Col, Row } from "antd";
 
-const EditAdmin = ({ params }: { params: any }) => {
+const EditBlog = ({ params }: { params: any }) => {
   const { id } = params;
 
-  const { data } = useServiceQuery(id);
-  const [updateService, { isLoading }] = useUpdateServiceMutation();
+  const { data } = useBlogQuery(id);
+  const [updateBlog, { isLoading }] = useUpdateBlogMutation();
 
   const onSubmit = async (updatedData: any) => {
     try {
@@ -45,15 +42,15 @@ const EditAdmin = ({ params }: { params: any }) => {
           }
         );
         const fileUploadResponse = await fileUpload.json();
-        const image = fileUploadResponse.url;
+        const profilePicture = fileUploadResponse.url;
 
-        updatedData["image"] = image;
+        updatedData["image"] = profilePicture;
       }
 
-      const res = await updateService({ id, updatedData }).unwrap();
+      const res = await updateBlog({ id, updatedData }).unwrap();
 
       if (res && !isLoading) {
-        message.success("Service updated successfully");
+        message.success("Blog updated successfully");
       } else {
         message.error("Something went  wrong");
       }
@@ -65,12 +62,11 @@ const EditAdmin = ({ params }: { params: any }) => {
 
   const defaultValues = {
     title: data?.title || "",
-    price: data?.price || "",
     description: data?.description || "",
   };
   return (
     <div>
-      <ActionBar title="Update Service"></ActionBar>
+      <ActionBar title="Update Blog"></ActionBar>
 
       <div className="max-w-[400px]">
         <Form submitHandler={onSubmit} defaultValues={defaultValues}>
@@ -85,23 +81,8 @@ const EditAdmin = ({ params }: { params: any }) => {
                 type="text"
                 name="title"
                 size="large"
-                label="Service Title"
+                label="Title"
                 placeholder="Display fix"
-              />
-            </Col>
-
-            <Col
-              className="gutter-row"
-              style={{
-                marginBottom: "10px",
-              }}
-            >
-              <FormInput
-                type="number"
-                name="price"
-                size="large"
-                label="Price"
-                placeholder="150"
               />
             </Col>
 
@@ -113,8 +94,8 @@ const EditAdmin = ({ params }: { params: any }) => {
             >
               <FormTextArea
                 name="description"
-                label="Service Description"
-                placeholder="Write here service description"
+                label="Description"
+                placeholder="Write here blog"
               />
             </Col>
             <Col
@@ -142,4 +123,4 @@ const EditAdmin = ({ params }: { params: any }) => {
   );
 };
 
-export default EditAdmin;
+export default EditBlog;
