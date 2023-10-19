@@ -16,8 +16,9 @@ import CSModal from "@/components/ui/Modal/CSModal";
 import dayjs from "dayjs";
 import { useBlogsQuery, useDeleteBlogMutation } from "@/redux/api/blogApi";
 import Spinner from "@/components/ui/Spinner/Spinner";
-import cameraIcon from "./../../../../assets/cameraIcon.png";
-import Image from "next/image";
+import { useDeleteFaqMutation, useFaqsQuery } from "@/redux/api/faqApi";
+import { Collapse } from "antd";
+import type { CollapseProps } from "antd";
 
 const ManageFaq = () => {
   const { role } = getUserInfo() as any;
@@ -29,7 +30,7 @@ const ManageFaq = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
-  const [blogId, setBlogId] = useState<string>("");
+  const [faqId, setFaqId] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
@@ -45,8 +46,8 @@ const ManageFaq = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
 
-  const { data, isLoading } = useBlogsQuery({ ...query });
-  const [deleteBlog, { isLoading: isDeleteLoading }] = useDeleteBlogMutation();
+  const { data, isLoading } = useFaqsQuery({ ...query });
+  const [deleteFaq, { isLoading: isDeleteLoading }] = useDeleteFaqMutation();
 
   if (isLoading) {
     return (
@@ -56,15 +57,17 @@ const ManageFaq = () => {
     );
   }
 
-  const blogs = data?.blogs;
+  const faqs = data?.faqs;
 
-  console.log(blogs);
+  //   const items = faqs.map((item, ))
+
+  console.log(faqs);
 
   const deleteHandler = async (id: string) => {
     // console.log(id);
     try {
       message.loading("Deleting...");
-      const res = await deleteBlog(id).unwrap();
+      const res = await deleteFaq(id).unwrap();
 
       setOpen(false);
       if (isDeleteLoading) {
@@ -97,7 +100,7 @@ const ManageFaq = () => {
           }}
         />
         <div>
-          <Link href={`/${role}/blog/create-blog`}>
+          <Link href={`/${role}/faq/create-faq`}>
             <Button type="primary">Create</Button>
           </Link>
           {(!!sortBy || !!sortOrder || !!searchTerm) && (
@@ -111,48 +114,41 @@ const ManageFaq = () => {
           )}
         </div>
       </ActionBar>
+      {/* <Collapse items={items} defaultActiveKey={["1"]} />; */}
 
-      <div className="my-12">
-        {blogs?.map(({ id, image, title, description }: any) => (
-          <div key={id} className="md:flex gap-3 block">
-            <div className="w-[50%]">
-              {image ? (
-                <img className="w-full" src={image} alt="image" />
-              ) : (
-                <Image src={cameraIcon} width={400} alt={title} />
-              )}
-            </div>
-            <div className="w-[50%]">
-              <div className="flex gap-3">
-                <Link href={`/${role}/blog/${id}/edit`}>
-                  <Button>
-                    <EditOutlined className="text-lg" />
-                  </Button>
-                </Link>
-                <Button
-                  danger
-                  onClick={() => {
-                    setOpen(true);
-                    setBlogId(id);
-                  }}
-                >
-                  <DeleteOutlined className="text-lg" />
+      {faqs?.map((faq: any, i) => (
+        <div key={faq?.id} className=" w-full p-3">
+          <div className="flex justify-between">
+            <p className="text-3xl">
+              Q{i + 1}. {faq?.question}
+            </p>
+            <div className="flex gap-2">
+              <Link href={`/${role}/faq/${faq?.id}/edit`}>
+                <Button>
+                  <EditOutlined className="text-lg" />
                 </Button>
-              </div>
-              <h2 className="text-3xl">{title}</h2>
-              <p className="text-lg">{description}</p>
+              </Link>
+              <Button
+                danger
+                onClick={() => {
+                  setOpen(true);
+                  setFaqId(faq?.id);
+                }}
+              >
+                <DeleteOutlined className="text-lg" />
+              </Button>
             </div>
           </div>
-        ))}
-      </div>
-
+          <p className="text-lg">{faq?.answer}</p>
+        </div>
+      ))}
       <CSModal
-        title="Remove Blog"
+        title="Remove FAQ"
         isOpen={open}
         closeModal={() => setOpen(false)}
-        handleOk={() => deleteHandler(blogId)}
+        handleOk={() => deleteHandler(faqId)}
       >
-        <p className="my-5">Do you want to remove this blog?</p>
+        <p className="my-5">Do you want to remove this faq?</p>
       </CSModal>
     </div>
   );

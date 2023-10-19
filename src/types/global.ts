@@ -110,3 +110,14 @@ export interface IBlog {
   updatedAt: string;
   __v?: number;
 }
+
+export interface IFaq {
+  id: string;
+  question: string;
+  answer: string;
+  customerAgentId: string;
+  customerAgent: ICustomerAgent;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}

@@ -58,8 +58,6 @@ const ManageBlogs = () => {
 
   const blogs = data?.blogs;
 
-  console.log(blogs);
-
   const deleteHandler = async (id: string) => {
     // console.log(id);
     try {
