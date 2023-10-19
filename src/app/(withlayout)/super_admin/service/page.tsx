@@ -1,11 +1,7 @@
 "use client";
 
 import CSTable from "@/components/ui/Table/CSTable";
-import {
-  useCustomersQuery,
-  useDeleteCustomerMutation,
-} from "@/redux/api/customerApi";
-import { Button, Divider, Input, message } from "antd";
+import { Button, Input, message } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -19,8 +15,12 @@ import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
 import CSModal from "@/components/ui/Modal/CSModal";
 import dayjs from "dayjs";
+import {
+  useDeleteServiceMutation,
+  useServicesQuery,
+} from "@/redux/api/serviceApi";
 
-const ManageCustomerPage = () => {
+const ManageServicePage = () => {
   const { role } = getUserInfo() as any;
   const query: Record<string, any> = {};
 
@@ -30,7 +30,7 @@ const ManageCustomerPage = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
-  const [customerId, setCustomerId] = useState<string>("");
+  const [adminId, setAdminId] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
@@ -46,25 +46,26 @@ const ManageCustomerPage = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
 
-  const { data, isLoading } = useCustomersQuery({ ...query });
+  const { data, isLoading } = useServicesQuery({ ...query });
 
-  const customers = data?.customers;
+  const services = data?.services;
   const meta = data?.meta;
 
-  const [deleteCustomer, { isLoading: isDeleteLoading }] =
-    useDeleteCustomerMutation();
+  const [deleteService, { isLoading: isDeleteLoading }] =
+    useDeleteServiceMutation();
 
   const deleteHandler = async (id: string) => {
     // console.log(id);
     try {
-      const res = await deleteCustomer(id).unwrap();
+      message.loading("Deleting...");
+      const res = await deleteService(id).unwrap();
 
       if (isDeleteLoading) {
         message.loading("Deleting...");
       }
-      if (res && !isDeleteLoading) {
-        message.success("Customer Deleted Successfully!");
+      if (res) {
         setOpen(false);
+        message.success("Service Deleted Successfully!");
       } else {
         message.error("Something went wrong!");
       }
@@ -75,34 +76,14 @@ const ManageCustomerPage = () => {
 
   const columns = [
     {
-      title: "Name",
-      // dataIndex: "firstName",
-      render: function (data: any) {
-        return (
-          <>
-            {data?.firstName} {data?.lastName}
-          </>
-        );
-      },
+      title: "Title",
+      dataIndex: "title",
       sorter: true,
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Price",
+      dataIndex: "price",
       sorter: true,
-    },
-    {
-      title: "Contact No",
-      dataIndex: "contactNo",
-      sorter: true,
-    },
-    {
-      title: "present Address",
-      dataIndex: "presentAddress",
-    },
-    {
-      title: "Permanent Address",
-      dataIndex: "presentAddress",
     },
     {
       title: "Created at",
@@ -122,17 +103,17 @@ const ManageCustomerPage = () => {
               danger
               onClick={() => {
                 setOpen(true);
-                setCustomerId(data?.id);
+                setAdminId(data?.id);
               }}
             >
               <DeleteOutlined />
             </Button>
-            <Link href={`/${role}/manage-customer/${data?.id}/edit`}>
+            <Link href={`/${role}/service/${data?.id}/edit`}>
               <Button type="primary">
                 <EditOutlined />
               </Button>
             </Link>
-            <Link href={`/${role}/manage-customer/${data?.id}/details`}>
+            <Link href={`/${role}/service/${data?.id}/details`}>
               <Button type="primary">
                 <InfoCircleOutlined />
               </Button>
@@ -162,7 +143,7 @@ const ManageCustomerPage = () => {
 
   return (
     <div>
-      <ActionBar title="Customers">
+      <ActionBar title="Service">
         <Input
           size="large"
           placeholder="Search"
@@ -172,7 +153,7 @@ const ManageCustomerPage = () => {
           }}
         />
         <div>
-          <Link href={`/${role}/manage-customer/create-customer`}>
+          <Link href={`/${role}/service/create-service`}>
             <Button type="primary">Create</Button>
           </Link>
           {(!!sortBy || !!sortOrder || !!searchTerm) && (
@@ -191,7 +172,7 @@ const ManageCustomerPage = () => {
         <CSTable
           loading={isLoading}
           columns={columns}
-          dataSource={customers}
+          dataSource={services}
           pageSize={size}
           totalPages={meta?.total}
           showSizeChanger={true}
@@ -205,12 +186,12 @@ const ManageCustomerPage = () => {
         title="Remove admin"
         isOpen={open}
         closeModal={() => setOpen(false)}
-        handleOk={() => deleteHandler(customerId)}
+        handleOk={() => deleteHandler(adminId)}
       >
-        <p className="my-5">Do you want to remove this customer?</p>
+        <p className="my-5">Do you want to remove this admin?</p>
       </CSModal>
     </div>
   );
 };
 
-export default ManageCustomerPage;
+export default ManageServicePage;

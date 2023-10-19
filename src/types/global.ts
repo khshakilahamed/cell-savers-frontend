@@ -60,3 +60,14 @@ export interface ICustomer {
   updatedAt: string;
   __v?: number;
 }
+
+export interface IService {
+  id: string;
+  title: string;
+  price: number;
+  image: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
