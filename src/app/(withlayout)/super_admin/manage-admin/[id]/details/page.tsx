@@ -10,7 +10,7 @@ import { useCustomerAgentQuery } from "@/redux/api/customerAgentApi";
 import Link from "next/link";
 import { getUserInfo } from "@/services/auth.service";
 
-const AdminDetails = ({ params }: { params: any }) => {
+const TechnicianDetails = ({ params }: { params: any }) => {
   const user = getUserInfo() as any;
   const { id } = params;
   const { data, isLoading } = useCustomerAgentQuery(id);
@@ -36,7 +36,7 @@ const AdminDetails = ({ params }: { params: any }) => {
 
   return (
     <div className="">
-      <ActionBar title="Admin Profile" />
+      <ActionBar title="Technician Profile" />
 
       <div className="flex justify-center items-center gap-5 h-full w-full">
         <div>
@@ -61,7 +61,7 @@ const AdminDetails = ({ params }: { params: any }) => {
           <p className="text-lg">Present Address: {presentAddress}</p>
           <p className="text-lg">Permanent Address: {permanentAddress}</p>
 
-          <Link href={`/${user?.role}/manage-admin/${id}/edit`}>
+          <Link href={`/${user?.role}/manage-technician/${id}/edit`}>
             <Button type="primary">Edit</Button>
           </Link>
         </div>
@@ -70,4 +70,4 @@ const AdminDetails = ({ params }: { params: any }) => {
   );
 };
 
-export default AdminDetails;
+export default TechnicianDetails;

@@ -1,11 +1,7 @@
 "use client";
 
 import CSTable from "@/components/ui/Table/CSTable";
-import {
-  useCustomersQuery,
-  useDeleteCustomerMutation,
-} from "@/redux/api/customerApi";
-import { Button, Divider, Input, message } from "antd";
+import { Button, message } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -18,11 +14,11 @@ import { getUserInfo } from "@/services/auth.service";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
 import CSModal from "@/components/ui/Modal/CSModal";
-import { useTechniciansQuery } from "@/redux/api/userApi";
+import { useAdminsQuery, useTechniciansQuery } from "@/redux/api/userApi";
 import { useDeleteCustomerAgentMutation } from "@/redux/api/customerAgentApi";
 import dayjs from "dayjs";
 
-const ManageTechnicianPage = () => {
+const ManageAdminPage = () => {
   const { role } = getUserInfo() as any;
   const query: Record<string, any> = {};
 
@@ -32,7 +28,7 @@ const ManageTechnicianPage = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
-  const [technicianId, setTechnicianId] = useState<string>("");
+  const [adminId, setAdminId] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
@@ -48,7 +44,7 @@ const ManageTechnicianPage = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
 
-  const { data, isLoading } = useTechniciansQuery();
+  const { data, isLoading } = useAdminsQuery();
 
   const [deleteCustomerAgent, { isLoading: isDeleteLoading }] =
     useDeleteCustomerAgentMutation();
@@ -62,9 +58,9 @@ const ManageTechnicianPage = () => {
       if (isDeleteLoading) {
         message.loading("Deleting...");
       }
-      if (res && !isDeleteLoading) {
-        message.success("Technician Deleted Successfully!");
+      if (res) {
         setOpen(false);
+        message.success("Admin Deleted Successfully!");
       } else {
         message.error("Something went wrong!");
       }
@@ -122,7 +118,7 @@ const ManageTechnicianPage = () => {
               danger
               onClick={() => {
                 setOpen(true);
-                setTechnicianId(data?.id);
+                setAdminId(data?.id);
               }}
             >
               <DeleteOutlined />
@@ -162,7 +158,7 @@ const ManageTechnicianPage = () => {
 
   return (
     <div>
-      <ActionBar title="Technicians">
+      <ActionBar title="Admins">
         {/* <Input
           size="large"
           placeholder="Search"
@@ -172,7 +168,7 @@ const ManageTechnicianPage = () => {
           }}
         /> */}
         <div>
-          <Link href={`/${role}/manage-technician/create-technician`}>
+          <Link href={`/${role}/manage-admin/create-admin`}>
             <Button type="primary">Create</Button>
           </Link>
           {(!!sortBy || !!sortOrder || !!searchTerm) && (
@@ -205,12 +201,12 @@ const ManageTechnicianPage = () => {
         title="Remove admin"
         isOpen={open}
         closeModal={() => setOpen(false)}
-        handleOk={() => deleteHandler(technicianId)}
+        handleOk={() => deleteHandler(adminId)}
       >
-        <p className="my-5">Do you want to remove this technician?</p>
+        <p className="my-5">Do you want to remove this admin?</p>
       </CSModal>
     </div>
   );
 };
 
-export default ManageTechnicianPage;
+export default ManageAdminPage;
