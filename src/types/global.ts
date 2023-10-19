@@ -79,11 +79,20 @@ export interface ICustomerAgent {
   __v?: number;
 }
 
+export interface IReview {
+  id: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IService {
   id: string;
   title: string;
   price: number;
   image: string;
+  reviews: IReview[];
   description: string;
   createdAt: string;
   updatedAt: string;

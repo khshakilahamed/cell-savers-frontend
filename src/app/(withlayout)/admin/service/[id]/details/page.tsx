@@ -24,8 +24,6 @@ const TechnicianDetails = ({ params }: { params: any }) => {
 
   const { title, price, image, description } = data;
 
-  console.log(data);
-
   return (
     <div className="">
       <ActionBar title="Technician Profile" />

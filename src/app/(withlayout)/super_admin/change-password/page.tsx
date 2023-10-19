@@ -19,9 +19,9 @@ const ChangePassword = () => {
     try {
       message.loading("Creating...");
 
-      const res = await changePassword(data);
+      const res: any = await changePassword(data);
 
-      if (res) {
+      if (res.data) {
         message.success("Password updated successfully");
       } else {
         message.error("Something went wrong");
