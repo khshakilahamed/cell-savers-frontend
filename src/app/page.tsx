@@ -1,10 +1,17 @@
+import Banner from "@/components/ui/Banner/Banner";
+import BannerBottom from "@/components/ui/Banner/BannerBottom";
+import Footer from "@/components/ui/Footer/Footer";
 import Navbar from "@/components/ui/Navbar/Navbar";
 
 const HomePage = () => {
   return (
     <div>
       <Navbar />
-      <h1>Home Page</h1>
+      <Banner />
+      <BannerBottom />
+      <div className="mt-36">
+        <Footer />
+      </div>
     </div>
   );
 };

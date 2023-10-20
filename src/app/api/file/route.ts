@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
+// import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST() {
   return NextResponse.json({ name: "File uploaded" });
 }

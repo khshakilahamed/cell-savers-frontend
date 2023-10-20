@@ -1,3 +1,4 @@
+import Footer from "@/components/ui/Footer/Footer";
 import Navbar from "@/components/ui/Navbar/Navbar";
 import React from "react";
 
@@ -9,7 +10,8 @@ const layout = ({
   return (
     <div>
       <Navbar />
-      <div className="my-5 px-5 lg:px-20 xl:px-64">{children}</div>
+      <div className="my-5 px-5 lg:px-20 xl:px-64 py-10">{children}</div>
+      <Footer />
     </div>
   );
 };

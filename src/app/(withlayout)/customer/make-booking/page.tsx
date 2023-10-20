@@ -60,7 +60,6 @@ const MakeBooking = () => {
 
       bookingData["slotId"] = timeSlotId;
       delete bookingData["timeSlot"];
-      console.log(bookingData);
 
       if (!bookingData.bookingDate) {
         return message.error("Please fill the booking date");
