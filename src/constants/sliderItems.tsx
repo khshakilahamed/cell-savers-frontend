@@ -17,7 +17,7 @@ export const bannerItems = [
   },
   {
     key: 3,
-    heading: "Support and repair with lowest costs",
+    heading: "Experts of recovering lost data - fast and cheap",
     text: "Are you looking for phone or any other device repair? We carry out large number of mobile repairs every month and help you fix your device as well",
     image: image3,
   },
