@@ -12,6 +12,7 @@ interface IInput {
   placeholder?: string;
   validation?: object;
   label?: string;
+  disabled?: boolean;
 }
 
 const FormInput = ({
@@ -22,6 +23,7 @@ const FormInput = ({
   id,
   placeholder,
   label,
+  disabled = false,
 }: IInput) => {
   const { control } = useFormContext();
 
@@ -47,6 +49,7 @@ const FormInput = ({
               value={value ? value : field.value}
               size={size}
               placeholder={placeholder}
+              disabled={disabled}
             />
           )
         }

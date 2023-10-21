@@ -40,7 +40,7 @@ const FaqSection = () => {
         <h2 className="text-3xl">Quality Service is Our Guarantee</h2>
       </div>
       <div className="flex flex-col md:flex-row gap-5 mt-10">
-        <div className="md:w-[50%]">
+        <div className="hidden md:block md:w-[50%]">
           <img
             className="w-full"
             src="https://i.ibb.co/0qJnZ17/faq-mobile-store.jpg"
@@ -55,7 +55,7 @@ const FaqSection = () => {
           ) : (
             <Collapse
               bordered={false}
-              defaultActiveKey={["1"]}
+              defaultActiveKey={[`${faqs && faqs[0].id}`]}
               expandIcon={({ isActive }) => (
                 <CaretRightOutlined rotate={isActive ? 90 : 0} />
               )}

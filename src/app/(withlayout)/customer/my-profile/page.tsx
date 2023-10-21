@@ -5,6 +5,8 @@ import { useMyProfileQuery } from "@/redux/api/userApi";
 import { Button, Divider } from "antd";
 import blankUser from "./../../../../assets/blankUser.png";
 import Image from "next/image";
+import Link from "next/link";
+import MyButton from "@/components/ui/Button/Button";
 
 const SuperAdminProfile = () => {
   const { data, isLoading } = useMyProfileQuery(undefined);
@@ -17,6 +19,7 @@ const SuperAdminProfile = () => {
   }
 
   const {
+    id,
     firstName,
     lastName,
     contactNo,
@@ -35,11 +38,21 @@ const SuperAdminProfile = () => {
       <div className="flex justify-center items-center gap-5 h-full w-full">
         <div>
           <div>
-            <Image src={blankUser} width={200} alt="user profile picture" />
+            {profilePicture ? (
+              <Link href={profilePicture} target="blank">
+                <Image
+                  src={profilePicture}
+                  width={200}
+                  height={200}
+                  alt="user profile picture"
+                />
+              </Link>
+            ) : (
+              <Image src={blankUser} width={200} alt="user profile picture" />
+            )}
           </div>
         </div>
         <div>
-          <h3 className="uppercase text-2xl">{role}</h3>
           <p className="text-lg">
             Name:{" "}
             <span className="font-bold">
@@ -52,10 +65,17 @@ const SuperAdminProfile = () => {
           <p className="text-lg">
             Email: <a href={`mailto:${email}`}>{email}</a>
           </p>
-          <p className="text-lg">PresentAddress: {presentAddress}</p>
-          <p className="text-lg">PermanentAddress: {permanentAddress}</p>
+          <p className="text-lg">
+            PresentAddress: {presentAddress ? presentAddress : " N/A"}
+          </p>
+          <p className="text-lg">
+            PermanentAddress: {permanentAddress ? permanentAddress : "N/A"}
+          </p>
 
-          <Button type="primary">Edit</Button>
+          {/* <Button type="primary">Edit</Button> */}
+          <Link href={`/${role}/my-profile/${id}/update-my-profile`}>
+            <MyButton className="font-bold py-2 px-3">Edit</MyButton>
+          </Link>
         </div>
       </div>
     </div>

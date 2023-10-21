@@ -5,24 +5,33 @@ import FormInput from "@/components/Forms/FormInput";
 import FormSelectField from "@/components/Forms/FormSelectField";
 import FormTextArea from "@/components/Forms/FormTextArea";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
+import MyButton from "@/components/ui/Button/Button";
 import UploadImage from "@/components/ui/UploadImage/UploadImage";
 import { genderOptions } from "@/constants/global";
 import {
   useCustomerAgentQuery,
   useUpdateCustomerAgentMutation,
 } from "@/redux/api/customerAgentApi";
+import {
+  useMyProfileQuery,
+  useUpdateMyProfileMutation,
+} from "@/redux/api/userApi";
 import { Button, message } from "antd";
 import { Col, Row } from "antd";
+import { SubmitHandler } from "react-hook-form";
 
-const EditTechnician = ({ params }: { params: any }) => {
+const UpdateMyProfile = ({ params }: { params: any }) => {
   const { id } = params;
 
-  const { data } = useCustomerAgentQuery(id);
-  const [updateCustomerAgent, { isLoading }] = useUpdateCustomerAgentMutation();
+  const { data } = useMyProfileQuery(id);
+  const [updateMyProfile, { isLoading }] = useUpdateMyProfileMutation();
 
   const onSubmit = async (updatedData: any) => {
     try {
       message.loading("Updating...");
+      if (updatedData.email) {
+        delete updatedData["email"];
+      }
       let file;
       if (updatedData?.file) {
         file = updatedData["file"];
@@ -46,10 +55,10 @@ const EditTechnician = ({ params }: { params: any }) => {
         updatedData["profilePicture"] = profilePicture;
       }
 
-      const res = await updateCustomerAgent({ id, updatedData }).unwrap();
+      const res = await updateMyProfile(updatedData).unwrap();
 
       if (res && !isLoading) {
-        message.success("Customer updated successfully");
+        message.success("Profile updated successfully");
       } else {
         message.error("Something went  wrong");
       }
@@ -72,7 +81,7 @@ const EditTechnician = ({ params }: { params: any }) => {
   };
   return (
     <div>
-      <ActionBar title="Update Technician"></ActionBar>
+      <ActionBar title="Update My Profile"></ActionBar>
 
       <div>
         <Form submitHandler={onSubmit} defaultValues={defaultValues}>
@@ -121,6 +130,7 @@ const EditTechnician = ({ params }: { params: any }) => {
                 size="large"
                 label="Email"
                 placeholder="johndoe@gmail.com"
+                disabled
               />
             </Col>
             <Col
@@ -206,13 +216,13 @@ const EditTechnician = ({ params }: { params: any }) => {
           </Row>
 
           <div className="my-3">
-            <Button
-              type="primary"
-              htmlType="submit"
+            <MyButton
+              type="submit"
+              className="px-3 py-2 rounded-lg"
               disabled={isLoading ? true : false}
             >
-              Submit
-            </Button>
+              Update
+            </MyButton>
           </div>
         </Form>
       </div>
@@ -220,4 +230,4 @@ const EditTechnician = ({ params }: { params: any }) => {
   );
 };
 
-export default EditTechnician;
+export default UpdateMyProfile;

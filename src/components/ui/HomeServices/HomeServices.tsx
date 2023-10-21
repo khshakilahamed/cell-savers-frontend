@@ -3,7 +3,7 @@
 import { useServicesQuery } from "@/redux/api/serviceApi";
 import ServiceCard from "../ServiceCard/ServiceCard";
 import Link from "next/link";
-import MyBlackButton from "../Button/Button";
+import MyButton from "../Button/Button";
 import Spinner from "../Spinner/Spinner";
 
 const HomeServices = () => {
@@ -35,7 +35,7 @@ const HomeServices = () => {
 
       <div className="mt-14 text-center">
         <Link href="/services">
-          <MyBlackButton>More Services</MyBlackButton>
+          <MyButton>More Services</MyButton>
         </Link>
       </div>
     </div>

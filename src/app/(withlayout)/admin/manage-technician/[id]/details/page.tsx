@@ -41,7 +41,18 @@ const AdminDetails = ({ params }: { params: any }) => {
       <div className="flex justify-center items-center gap-5 h-full w-full">
         <div>
           <div>
-            <Image src={blankUser} width={200} alt="user profile picture" />
+            {profilePicture ? (
+              <Link href={profilePicture} target="blank">
+                <Image
+                  src={profilePicture}
+                  width={200}
+                  height={200}
+                  alt="user profile picture"
+                />
+              </Link>
+            ) : (
+              <Image src={blankUser} width={200} alt="user profile picture" />
+            )}
           </div>
         </div>
         <div>

@@ -1,11 +1,7 @@
 "use client";
 
 import CSTable from "@/components/ui/Table/CSTable";
-import {
-  useCustomersQuery,
-  useDeleteCustomerMutation,
-} from "@/redux/api/customerApi";
-import { Button, Divider, Input, message } from "antd";
+import { Button, message } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -128,7 +124,7 @@ const ManageTechnicianPage = () => {
               <DeleteOutlined />
             </Button>
             <Link href={`/${role}/manage-technician/${data?.id}/edit`}>
-              <Button type="primary">
+              <Button type="primary" ghost>
                 <EditOutlined />
               </Button>
             </Link>

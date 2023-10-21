@@ -13,6 +13,7 @@ import Spinner from "@/components/ui/Spinner/Spinner";
 import { useAddBookingMutation } from "@/redux/api/bookingApi";
 import { useAvailableTechniciansQuery } from "@/redux/api/customerAgentApi";
 import { useServiceQuery, useServicesQuery } from "@/redux/api/serviceApi";
+import { IService } from "@/types/global";
 import { Input } from "antd";
 import { Button, Upload, message } from "antd";
 import { useState } from "react";
@@ -36,16 +37,16 @@ const MakeBooking = () => {
   });
 
   const services = data?.services;
-  const servicesOptions = services?.map((services: any) => {
+  const servicesOptions = services?.map((service: IService) => {
     return {
-      label: services?.title,
-      value: services?.id,
+      label: `${service?.title} - ৳ ${service?.price}`,
+      value: service?.id,
     };
   });
 
   const { data: technicians } = useAvailableTechniciansQuery({ ...query });
 
-  const offeredCoursesOptions = technicians?.map((technician: any) => {
+  const techniciansOptions = technicians?.map((technician: any) => {
     return {
       label: `${technician?.firstName} ${technician?.lastName}`,
       value: technician?.id,
@@ -56,14 +57,13 @@ const MakeBooking = () => {
 
   const onSubmit = async (bookingData: any) => {
     try {
-      message.loading("Creating...");
-
       bookingData["slotId"] = timeSlotId;
       delete bookingData["timeSlot"];
 
       if (!bookingData.bookingDate) {
         return message.error("Please fill the booking date");
       }
+      message.loading("Creating...");
 
       if (
         !bookingData.booking &&
@@ -117,7 +117,7 @@ const MakeBooking = () => {
             </div>
             <div style={{ margin: "10px 0px" }}>
               <FormSelectField
-                options={offeredCoursesOptions as SelectOptions[]}
+                options={techniciansOptions as SelectOptions[]}
                 name="customerAgentId"
                 label="Technician"
               />

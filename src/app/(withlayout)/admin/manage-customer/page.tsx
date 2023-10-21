@@ -128,7 +128,7 @@ const ManageCustomerPage = () => {
               <DeleteOutlined />
             </Button>
             <Link href={`/${role}/manage-customer/${data?.id}/edit`}>
-              <Button type="primary">
+              <Button type="primary" ghost>
                 <EditOutlined />
               </Button>
             </Link>

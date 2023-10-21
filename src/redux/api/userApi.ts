@@ -53,7 +53,7 @@ export const userApi: any = baseApi.injectEndpoints({
       providesTags: [tagTypes.admin],
     }),
     superAdmins: build.query({
-      query: (id: string | string[] | undefined) => ({
+      query: () => ({
         url: `${USER_URL}/super-admins`,
         method: "GET",
       }),
@@ -65,6 +65,14 @@ export const userApi: any = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: [tagTypes.user],
+    }),
+    updateMyProfile: build.mutation({
+      query: (data) => ({
+        url: `${USER_URL}/update-my-profile`,
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: [tagTypes.user],
     }),
   }),
 });
@@ -78,4 +86,5 @@ export const {
   useAdminsQuery,
   useSuperAdminsQuery,
   useMyProfileQuery,
+  useUpdateMyProfileMutation,
 } = userApi;

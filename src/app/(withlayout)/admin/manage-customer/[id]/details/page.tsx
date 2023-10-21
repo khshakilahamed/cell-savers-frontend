@@ -6,8 +6,12 @@ import blankUser from "./../../../../../../assets/blankUser.png";
 import { Button } from "antd";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import Spinner from "@/components/ui/Spinner/Spinner";
+import Link from "next/link";
+import MyButton from "@/components/ui/Button/Button";
+import { getUserInfo } from "@/services/auth.service";
 
 const EditCustomer = ({ params }: { params: any }) => {
+  const { role } = getUserInfo() as any;
   const { id } = params;
   const { data, isLoading } = useCustomerQuery(id);
 
@@ -19,8 +23,6 @@ const EditCustomer = ({ params }: { params: any }) => {
     );
   }
 
-  console.log(data);
-
   const {
     firstName,
     lastName,
@@ -29,7 +31,7 @@ const EditCustomer = ({ params }: { params: any }) => {
     profilePicture,
     permanentAddress,
     presentAddress,
-    role,
+    user,
   } = data;
 
   return (
@@ -39,11 +41,22 @@ const EditCustomer = ({ params }: { params: any }) => {
       <div className="flex justify-center items-center gap-5 h-full w-full">
         <div>
           <div>
-            <Image src={blankUser} width={200} alt="user profile picture" />
+            {profilePicture ? (
+              <Link href={profilePicture} target="blank">
+                <Image
+                  src={profilePicture}
+                  width={200}
+                  height={200}
+                  alt="user profile picture"
+                />
+              </Link>
+            ) : (
+              <Image src={blankUser} width={200} alt="user profile picture" />
+            )}
           </div>
         </div>
         <div>
-          <h3 className="uppercase text-2xl">{role}</h3>
+          <h3 className="uppercase text-2xl">{user?.role?.title}</h3>
           <p className="text-lg">
             Name:{" "}
             <span className="font-bold">
@@ -59,7 +72,9 @@ const EditCustomer = ({ params }: { params: any }) => {
           <p className="text-lg">PresentAddress: {presentAddress}</p>
           <p className="text-lg">PermanentAddress: {permanentAddress}</p>
 
-          <Button type="primary">Edit</Button>
+          <Link href={`/${role}/manage-customer/${id}/edit`}>
+            <MyButton className="font-bold py-2 px-3">Edit</MyButton>
+          </Link>
         </div>
       </div>
     </div>

@@ -39,11 +39,11 @@ const AvatarMenu = () => {
     },
     {
       key: "/my-profile",
-      label: <Link href={`${data?.role}/my-profile`}>Profile</Link>,
+      label: <Link href={`/${role}/my-profile`}>Profile</Link>,
     },
     {
-      key: "/dashboard",
-      label: <Link href="/dashboard">Dashboard</Link>,
+      key: `/${role}/manage-booking`,
+      label: <Link href={`/${role}/manage-booking`}>Dashboard</Link>,
     },
     {
       key: "logout",
@@ -93,7 +93,11 @@ const AvatarMenu = () => {
           className="bg-gray-400 cursor-pointer"
           size={50}
           //   icon={<UserOutlined />}
-          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+          src={`${
+            data?.profilePicture
+              ? data?.profilePicture
+              : "https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+          }`}
         ></Avatar>
       </Space>
     </Dropdown>
