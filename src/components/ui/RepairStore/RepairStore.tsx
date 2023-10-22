@@ -19,19 +19,19 @@ const RepairStore = () => {
             alt="about mobile"
           />
         </div>
-        <div className="md:w-[50%] flex flex-col gap-5">
-          <p className="text-2xl text-red-400">
+        <div className="md:w-[50%] flex flex-col gap-5 text-justify text-base sm:text-lg md:text-2xl">
+          <p className=" text-red-400">
             We strive to help people by providing extraordinary service and
             expert repairs using only the highest quality parts available.
           </p>
-          <p className="text-lg">
+          <p>
             Of course we love fixing cracked iPhone screens and broken charge
             ports, but we get our satisfaction from helping out folks who lost
             their connection to the outside world.
           </p>
           <div className="flex flex-col gap-3">
             <h4 className="text-xl">What We Do</h4>
-            <p className="text-lg">
+            <p>
               We service all the newest and popular mobile phones, tablets and
               laptops. natis sed id nisl magna auris et neque sollicitudin
               ullamcorper fusce molestie felis mi id.Vestibulum venenatis sed id

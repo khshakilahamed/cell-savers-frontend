@@ -28,8 +28,10 @@ const Banner = () => {
               <div className="px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64 h-full w-[80%] md:w-[70%] lg:w-[60%] flex justify-left items-center">
                 <div>
                   <div className="flex flex-col gap-5 ">
-                    <h2 className="text-4xl md:text-5xl">{item.heading}</h2>
-                    <p className="text-lg">{item.text}</p>
+                    <h2 className="text-2xl sm:text-4xl md:text-5xl">
+                      {item.heading}
+                    </h2>
+                    <p className="text-base sm:text-lg">{item.text}</p>
                     <div>
                       <Link href="/services">
                         <MyButton>View Services</MyButton>

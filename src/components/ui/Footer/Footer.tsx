@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64  ">
         <div className="flex flex-col md:flex-row items-center md:justify-between gap-16 py-5">
           <h2 className="text-4xl">CellSavers</h2>
-          <p className="text-xl text-center">
+          <p className="text-lg lg:text-xl text-center">
             BEST TECHNOLOGY REPAIR CENTER IN THE WHOLE WORLD. OUR REPAIRING
             MEANS NO TROUBLE FOR YOU
           </p>
@@ -29,15 +29,15 @@ const Footer = () => {
           <p style={{ borderBottom: "1px solid white" }}></p>
         </div>
         <div className="flex flex-col md:flex-row items-center md:items-start flex-between w-full gap-10">
-          <div className="flex flex-col gap-3 w-[33%]">
+          <div className="flex flex-col gap-3 md:w-[33%]">
             <h2 className="uppercase text-center md:text-start">About us</h2>
-            <p className="text-lg text-center md:text-start">
+            <p className="text-base sm:text-lg text-center md:text-justify">
               We strive to help people by providing extraordinary service and
               expert repairs using only the highest quality parts available. We
               service all the newest and popular mobile phones and tablets.
             </p>
           </div>
-          <div className=" flex flex-col text-center md:text-start gap-3 w-[33%] text-white">
+          <div className=" flex flex-col text-center md:text-start gap-3 md:w-[33%] text-white">
             <h2 className="uppercase">services</h2>
             <div className="flex flex-col gap-2 text-lg">
               <p>Water Damage Repair</p>
@@ -47,7 +47,7 @@ const Footer = () => {
               <p>Screen Replacement</p>
             </div>
           </div>
-          <div className="flex flex-col text-center md:text-start gap-3 w-[33%]">
+          <div className="flex flex-col text-center md:text-start gap-3 md:w-[33%]">
             <h2>CONTACT US</h2>
             <p className="text-lg">
               136 Kingston Road SW19 1LY Wimbledon London.
