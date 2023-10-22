@@ -151,3 +151,14 @@ export interface IBooking {
   updatedAt: string;
   __v?: number;
 }
+
+export interface IFeedback {
+  id: string;
+  comment: string;
+  isSelected: boolean;
+  customerId: string;
+  customer: ICustomer[];
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}

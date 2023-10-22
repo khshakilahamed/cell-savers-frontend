@@ -19,6 +19,7 @@ const AvatarMenu = () => {
 
   const logOut = () => {
     removeUserInfo(authKey);
+    location.reload();
     router.push("/login");
   };
 
@@ -89,16 +90,18 @@ const AvatarMenu = () => {
       trigger={["click"]}
     >
       <Space>
-        <Avatar
-          className="bg-gray-400 cursor-pointer"
-          size={50}
-          //   icon={<UserOutlined />}
-          src={`${
-            data?.profilePicture
-              ? data?.profilePicture
-              : "https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
-          }`}
-        ></Avatar>
+        {data && (
+          <Avatar
+            className="bg-gray-400 cursor-pointer"
+            size={50}
+            //   icon={<UserOutlined />}
+            src={`${
+              data?.profilePicture && data?.profilePicture !== "null"
+                ? data?.profilePicture
+                : "https://ibb.co/phzYX5r"
+            }`}
+          ></Avatar>
+        )}
       </Space>
     </Dropdown>
   );

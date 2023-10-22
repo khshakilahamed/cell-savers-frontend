@@ -34,7 +34,7 @@ const FaqSection = () => {
     border: "none",
   };
   return (
-    <div className="my-10 px-5 lg:px-20 xl:px-64">
+    <div className="my-10 px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64">
       <div className="text-center my-20">
         <p className="uppercase text-sm">FAQS</p>
         <h2 className="text-3xl">Quality Service is Our Guarantee</h2>

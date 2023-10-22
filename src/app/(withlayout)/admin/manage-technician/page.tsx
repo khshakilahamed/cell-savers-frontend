@@ -17,6 +17,8 @@ import CSModal from "@/components/ui/Modal/CSModal";
 import { useTechniciansQuery } from "@/redux/api/userApi";
 import { useDeleteCustomerAgentMutation } from "@/redux/api/customerAgentApi";
 import dayjs from "dayjs";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
 
 const ManageTechnicianPage = () => {
   const { role } = getUserInfo() as any;
@@ -76,7 +78,16 @@ const ManageTechnicianPage = () => {
       render: function (data: any) {
         return (
           <>
-            {data?.firstName} {data?.lastName}
+            {data?.profilePicture ? (
+              <Link href={data?.profilePicture} target="blank">
+                <Avatar shape="square" size={64} src={data?.profilePicture} />
+              </Link>
+            ) : (
+              <Avatar shape="square" size={64} icon={<UserOutlined />} />
+            )}
+            <span className="ml-5 font-bold">
+              {data?.firstName} {data?.lastName}
+            </span>
           </>
         );
       },
@@ -113,6 +124,16 @@ const ManageTechnicianPage = () => {
       render: function (data: any) {
         return (
           <div className="flex flex-wrap gap-1 ">
+            <Link href={`/${role}/manage-technician/${data?.id}/details`}>
+              <Button type="primary">
+                <InfoCircleOutlined />
+              </Button>
+            </Link>
+            <Link href={`/${role}/manage-technician/${data?.id}/edit`}>
+              <Button type="primary" ghost>
+                <EditOutlined />
+              </Button>
+            </Link>
             <Button
               type="primary"
               danger
@@ -123,16 +144,6 @@ const ManageTechnicianPage = () => {
             >
               <DeleteOutlined />
             </Button>
-            <Link href={`/${role}/manage-technician/${data?.id}/edit`}>
-              <Button type="primary" ghost>
-                <EditOutlined />
-              </Button>
-            </Link>
-            <Link href={`/${role}/manage-technician/${data?.id}/details`}>
-              <Button type="primary">
-                <InfoCircleOutlined />
-              </Button>
-            </Link>
           </div>
         );
       },

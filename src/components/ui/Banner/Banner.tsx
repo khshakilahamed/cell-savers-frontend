@@ -11,7 +11,7 @@ import MyButton from "../Button/Button";
 
 const Banner = () => {
   return (
-    <div>
+    <div className="w-full">
       <Carousel dots effect="fade" autoplay>
         {bannerItems.map((item) => (
           <div key={item.key} className="h-[65vh] w-full">
@@ -25,14 +25,16 @@ const Banner = () => {
                 backdropFilter: `brightness(20%)`,
               }}
             >
-              <div className="px-5 lg:px-20 xl:px-64 h-full w-[85%] md:w-[50%] flex justify-left items-center">
-                <div className="flex flex-col gap-5">
-                  <h2 className="text-4xl">{item.heading}</h2>
-                  <p className="text-lg">{item.text}</p>
-                  <div>
-                    <Link href="/services">
-                      <MyButton>View Services</MyButton>
-                    </Link>
+              <div className="px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64 h-full w-[80%] md:w-[70%] lg:w-[60%] flex justify-left items-center">
+                <div>
+                  <div className="flex flex-col gap-5 ">
+                    <h2 className="text-4xl md:text-5xl">{item.heading}</h2>
+                    <p className="text-lg">{item.text}</p>
+                    <div>
+                      <Link href="/services">
+                        <MyButton>View Services</MyButton>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

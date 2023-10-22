@@ -19,6 +19,8 @@ import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
 import CSModal from "@/components/ui/Modal/CSModal";
 import dayjs from "dayjs";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Space } from "antd";
 
 const ManageCustomerPage = () => {
   const { role } = getUserInfo() as any;
@@ -80,7 +82,13 @@ const ManageCustomerPage = () => {
       render: function (data: any) {
         return (
           <>
-            {data?.firstName} {data?.lastName}
+            {data?.profilePicture ? (
+              <Link href={data?.profilePicture} target="blank">
+                <Avatar shape="square" size={64} src={data?.profilePicture} />
+              </Link>
+            ) : (
+              <Avatar shape="square" size={64} icon={<UserOutlined />} />
+            )}
           </>
         );
       },
@@ -117,6 +125,16 @@ const ManageCustomerPage = () => {
       render: function (data: any) {
         return (
           <div className="flex flex-wrap gap-1 ">
+            <Link href={`/${role}/manage-customer/${data?.id}/details`}>
+              <Button type="primary">
+                <InfoCircleOutlined />
+              </Button>
+            </Link>
+            <Link href={`/${role}/manage-customer/${data?.id}/edit`}>
+              <Button type="primary" ghost>
+                <EditOutlined />
+              </Button>
+            </Link>
             <Button
               type="primary"
               danger
@@ -127,16 +145,6 @@ const ManageCustomerPage = () => {
             >
               <DeleteOutlined />
             </Button>
-            <Link href={`/${role}/manage-customer/${data?.id}/edit`}>
-              <Button type="primary" ghost>
-                <EditOutlined />
-              </Button>
-            </Link>
-            <Link href={`/${role}/manage-customer/${data?.id}/details`}>
-              <Button type="primary">
-                <InfoCircleOutlined />
-              </Button>
-            </Link>
           </div>
         );
       },

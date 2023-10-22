@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Row, message } from "antd";
 import signUpImage from "./../../assets/Signup.png";
 import Image from "next/image";
 import Form from "@/components/Forms/Form";
@@ -8,6 +8,8 @@ import FormInput from "@/components/Forms/FormInput";
 import { SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { useUserRegisterMutation } from "@/redux/api/authApi";
+import { storeUserInfo } from "@/services/auth.service";
+import { useRouter } from "next/navigation";
 
 type FormValues = {
   email: string;
@@ -15,13 +17,21 @@ type FormValues = {
 };
 
 const RegisterPage = () => {
-  const [userRegister] = useUserRegisterMutation();
+  const [userRegister, { isLoading }] = useUserRegisterMutation();
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
       //   console.log(data);
-      const res = await userRegister(data);
-      console.log(res);
+      data["profilePicture"] = "https://i.ibb.co/pKwGF6G/camera-Icon.png";
+      const res = await userRegister(data).unwrap();
+      if (res.accessToken && !isLoading) {
+        message.success("Successfully registered");
+        storeUserInfo({ accessToken: res?.accessToken });
+        router.push("/");
+      } else {
+        message.error("Something went wrong");
+      }
     } catch (error) {}
   };
   return (

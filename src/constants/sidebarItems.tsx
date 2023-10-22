@@ -44,6 +44,11 @@ export const sidebarItems = (role: string) => {
       key: `/${role}/manage-technician`,
     },
     {
+      label: <Link href={`/${role}/feedback`}>Manage Feedback</Link>,
+      icon: <TableOutlined />,
+      key: `/${role}/feedback`,
+    },
+    {
       label: <Link href={`/${role}/service`}>Services</Link>,
       icon: <TableOutlined />,
       key: `/${role}/service`,

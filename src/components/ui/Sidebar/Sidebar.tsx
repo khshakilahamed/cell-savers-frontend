@@ -54,10 +54,19 @@ const Sidebar = ({
     <Layout style={{ minHeight: "90vh" }}>
       <Layout className="lg:flex hidden">
         <Sider
-          width={250}
           collapsible
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
+          width={250}
+          style={{
+            overflow: "auto",
+            height: "100vh",
+            position: "sticky",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            paddingTop: "80px",
+          }}
         >
           <Menu
             theme="dark"
@@ -67,7 +76,7 @@ const Sidebar = ({
           />
         </Sider>
         <Layout>
-          <Content className="bg-white p-4 m-3">{children}</Content>
+          <Content className="bg-white p-4 m-3 mt-20">{children}</Content>
         </Layout>
       </Layout>
       <Layout className="lg:hidden block">
@@ -86,7 +95,10 @@ const Sidebar = ({
             items={sidebarItems(data?.role)}
           />
         </Drawer>
-        <Content style={{ minHeight: "90vh" }} className="bg-white p-4 m-2">
+        <Content
+          style={{ minHeight: "90vh" }}
+          className="bg-white p-4 m-2 mt-20"
+        >
           {children}
         </Content>
       </Layout>

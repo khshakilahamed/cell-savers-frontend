@@ -1,5 +1,6 @@
 import { Button, Divider } from "antd";
 import React from "react";
+import MyButton from "../Button/Button";
 
 const Footer = () => {
   return (
@@ -7,7 +8,7 @@ const Footer = () => {
       className="py-10"
       style={{ backgroundColor: "#001529", color: "white" }}
     >
-      <div className="px-5 lg:px-20 xl:px-64  ">
+      <div className="px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64  ">
         <div className="flex flex-col md:flex-row items-center md:justify-between gap-16 py-5">
           <h2 className="text-4xl">CellSavers</h2>
           <p className="text-xl text-center">
@@ -15,9 +16,12 @@ const Footer = () => {
             MEANS NO TROUBLE FOR YOU
           </p>
           <div>
-            <Button type="primary" className="uppercase">
+            {/* <Button type="primary" className="uppercase">
               Get Started
-            </Button>
+            </Button> */}
+            <MyButton className=" bg-slate-300 text-black block w-[150px] hover:bg-slate-600 hover:text-white">
+              Get Started
+            </MyButton>
           </div>
         </div>
         {/* border  */}

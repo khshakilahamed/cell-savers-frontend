@@ -16,15 +16,16 @@ import {
   useMyProfileQuery,
   useUpdateMyProfileMutation,
 } from "@/redux/api/userApi";
-import { Button, message } from "antd";
+import { message } from "antd";
 import { Col, Row } from "antd";
-import { SubmitHandler } from "react-hook-form";
 
 const UpdateMyProfile = ({ params }: { params: any }) => {
   const { id } = params;
 
   const { data } = useMyProfileQuery(id);
-  const [updateMyProfile, { isLoading }] = useUpdateMyProfileMutation();
+  const [updateMyProfile, { isLoading, error }] = useUpdateMyProfileMutation();
+
+  console.log(error);
 
   const onSubmit = async (updatedData: any) => {
     try {
@@ -63,7 +64,7 @@ const UpdateMyProfile = ({ params }: { params: any }) => {
         message.error("Something went  wrong");
       }
     } catch (error: any) {
-      console.log(message);
+      console.error(message);
       message.error(error.message);
     }
   };

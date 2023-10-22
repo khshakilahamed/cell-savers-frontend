@@ -10,13 +10,15 @@ const HomePage = () => {
   return (
     <div>
       <Navbar />
-      <Banner />
-      <BannerBottom />
-      <RepairStore />
-      <HomeServices />
-      <FaqSection />
-      <div className="mt-36">
-        <Footer />
+      <div style={{ marginTop: "64px" }}>
+        <Banner />
+        <BannerBottom />
+        <RepairStore />
+        <HomeServices />
+        <FaqSection />
+        <div className="mt-36">
+          <Footer />
+        </div>
       </div>
     </div>
   );

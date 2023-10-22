@@ -1,6 +1,5 @@
 "use client";
 
-import { useCustomerQuery } from "@/redux/api/customerApi";
 import Image from "next/image";
 import blankUser from "./../../../../../../assets/blankUser.png";
 import { Button } from "antd";

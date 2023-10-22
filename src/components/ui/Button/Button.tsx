@@ -1,11 +1,14 @@
+import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface IMyButtonProps {
   type?: "button" | "submit" | "reset" | undefined;
   children?: string | React.ReactNode | React.ReactElement;
   className?: string;
-  onChange?: (el: any) => void;
+  onChange?: (el?: any) => void;
+  onClick?: (el?: any) => void;
   disabled?: boolean;
+  style?: React.CSSProperties;
 }
 
 const MyButton = ({
@@ -13,7 +16,9 @@ const MyButton = ({
   children,
   className,
   onChange,
+  onClick,
   disabled = false,
+  style,
 }: IMyButtonProps) => {
   const classDisableStyle = "bg-gray-400";
 
@@ -28,7 +33,9 @@ const MyButton = ({
       type={type}
       className={classStyles}
       onChange={onChange}
+      onClick={onClick}
       disabled={disabled}
+      style={style}
     >
       {children ? children : "Button"}
     </button>

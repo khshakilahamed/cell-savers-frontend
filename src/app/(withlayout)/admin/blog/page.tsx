@@ -1,14 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Button, Input, message } from "antd";
+import { Divider, Input, message } from "antd";
 import Link from "next/link";
 import { useState } from "react";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  InfoCircleOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons";
+import { ReloadOutlined } from "@ant-design/icons";
 import { getUserInfo } from "@/services/auth.service";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
@@ -18,6 +14,11 @@ import { useBlogsQuery, useDeleteBlogMutation } from "@/redux/api/blogApi";
 import Spinner from "@/components/ui/Spinner/Spinner";
 import cameraIcon from "./../../../../assets/cameraIcon.png";
 import Image from "next/image";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
+import { Button, Popover } from "antd";
+import MyButton from "@/components/ui/Button/Button";
+import { IBlog } from "@/types/global";
 
 const ManageBlogs = () => {
   const { role } = getUserInfo() as any;
@@ -78,6 +79,24 @@ const ManageBlogs = () => {
     }
   };
 
+  const content = (id: string) => (
+    <>
+      <Link href={`/${role}/blog/${id}/edit`}>
+        <p>Edit</p>
+      </Link>
+
+      <p
+        onClick={() => {
+          setOpen(true);
+          setBlogId(id);
+        }}
+        className="cursor-pointer"
+      >
+        Delete
+      </p>
+    </>
+  );
+
   const resetFilters = () => {
     setSortBy("");
     setSortOrder("");
@@ -90,9 +109,7 @@ const ManageBlogs = () => {
           size="large"
           placeholder="Search"
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            width: "20%",
-          }}
+          className="w-[50%] lg:w-[20%]"
         />
         <div>
           <Link href={`/${role}/blog/create-blog`}>
@@ -111,37 +128,55 @@ const ManageBlogs = () => {
       </ActionBar>
 
       <div className="my-12">
-        {blogs?.map(({ id, image, title, description }: any) => (
-          <div key={id} className="md:flex gap-3 block">
-            <div className="w-[50%]">
-              {image ? (
-                <img className="w-full" src={image} alt="image" />
-              ) : (
-                <Image src={cameraIcon} width={400} alt={title} />
-              )}
-            </div>
-            <div className="w-[50%]">
-              <div className="flex gap-3">
-                <Link href={`/${role}/blog/${id}/edit`}>
-                  <Button>
-                    <EditOutlined className="text-lg" />
-                  </Button>
-                </Link>
-                <Button
-                  danger
-                  onClick={() => {
-                    setOpen(true);
-                    setBlogId(id);
-                  }}
-                >
-                  <DeleteOutlined className="text-lg" />
-                </Button>
+        {blogs?.map(
+          (
+            { id, image, title, description, customerAgent, createdAt }: IBlog,
+            i,
+            blogs
+          ) => (
+            <div key={id} className="flex flex-col md:flex-row  gap-3">
+              <div className="w-[50%] md:w-[30%]">
+                {image ? (
+                  <img className="w-full" src={image} alt="image" />
+                ) : (
+                  <Image src={cameraIcon} width={400} alt={title} />
+                )}
               </div>
-              <h2 className="text-3xl">{title}</h2>
-              <p className="text-lg">{description}</p>
+              <div className="md:w-[70%]">
+                <div className="flex items-center gap-3 my-4">
+                  {customerAgent?.profilePicture ? (
+                    <Avatar size={45} src={customerAgent?.profilePicture} />
+                  ) : (
+                    <Avatar size={45} icon={<UserOutlined />} />
+                  )}
+                  <div className="flex items-center">
+                    <div>
+                      <h3>
+                        {customerAgent.firstName} {customerAgent.lastName}
+                      </h3>
+                      <p>{dayjs(createdAt).format("MMM D, YYYY hh:mm A")}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Popover
+                        placement="rightTop"
+                        title={"Options"}
+                        content={() => content(id)}
+                        trigger="click"
+                      >
+                        <MyButton className="font-bold bg-transparent text-black text-2xl">
+                          ...
+                        </MyButton>
+                      </Popover>
+                    </div>
+                  </div>
+                </div>
+                <h2 className="text-xl">{title}</h2>
+                <p className="text-lg">{description}</p>
+              </div>
+              {blogs.length - 1 !== i && <Divider />}
             </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
 
       <CSModal

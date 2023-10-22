@@ -7,37 +7,27 @@ import FormTextArea from "@/components/Forms/FormTextArea";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import UploadImage from "@/components/ui/UploadImage/UploadImage";
 import { genderOptions } from "@/constants/global";
-import { useAddServiceMutation } from "@/redux/api/serviceApi";
-
-import { Button, Upload, message } from "antd";
+import { useBlogQuery, useUpdateBlogMutation } from "@/redux/api/blogApi";
+import {
+  useCustomerAgentQuery,
+  useUpdateCustomerAgentMutation,
+} from "@/redux/api/customerAgentApi";
+import { Button, message } from "antd";
 import { Col, Row } from "antd";
 
-// type FormValues = {
-//   email: string;
-//   password: string;
-//   firstName: string;
-//   lastName: string;
-//   profilePicture: string;
-//   gender: string;
-//   contactNo: string;
-//   emergencyContactNo: string;
-//   presentAddress: string;
-//   permanentAddress: string;
-// };
+const EditBlog = ({ params }: { params: any }) => {
+  const { id } = params;
 
-const CreateAdmin = () => {
-  const [addService, { isLoading, error }] = useAddServiceMutation();
+  const { data } = useBlogQuery(id);
+  const [updateBlog, { isLoading }] = useUpdateBlogMutation();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (updatedData: any) => {
     try {
-      message.loading("Creating...");
-
-      data["price"] = Number(data?.price);
-
+      message.loading("Updating...");
       let file;
-      if (data?.file) {
-        file = data["file"];
-        delete data["file"];
+      if (updatedData?.file) {
+        file = updatedData["file"];
+        delete updatedData["file"];
 
         const formData = new FormData();
         formData.append("file", file);
@@ -52,33 +42,34 @@ const CreateAdmin = () => {
           }
         );
         const fileUploadResponse = await fileUpload.json();
-        const image = fileUploadResponse.url;
+        const profilePicture = fileUploadResponse.url;
 
-        data["image"] = image;
+        updatedData["image"] = profilePicture;
       }
 
-      if (!data["image"]) {
-        data["image"] = "https://i.ibb.co/pKwGF6G/camera-Icon.png";
-      }
+      const res = await updateBlog({ id, updatedData }).unwrap();
 
-      const res = await addService(data).unwrap();
-
-      if (res) {
-        message.success("Service created successfully");
+      if (res && !isLoading) {
+        message.success("Blog updated successfully");
       } else {
-        message.error("Something went wrong");
+        message.error("Something went  wrong");
       }
     } catch (error: any) {
       console.log(message);
       message.error(error.message);
     }
   };
+
+  const defaultValues = {
+    title: data?.title || "",
+    description: data?.description || "",
+  };
   return (
     <div>
-      <ActionBar title="Create Service"></ActionBar>
+      <ActionBar title="Update Blog"></ActionBar>
 
       <div className="max-w-[400px]">
-        <Form submitHandler={onSubmit}>
+        <Form submitHandler={onSubmit} defaultValues={defaultValues}>
           <div>
             <Col
               className="gutter-row"
@@ -90,23 +81,8 @@ const CreateAdmin = () => {
                 type="text"
                 name="title"
                 size="large"
-                label="Service Title"
+                label="Title"
                 placeholder="Display fix"
-              />
-            </Col>
-
-            <Col
-              className="gutter-row"
-              style={{
-                marginBottom: "10px",
-              }}
-            >
-              <FormInput
-                type="number"
-                name="price"
-                size="large"
-                label="Price"
-                placeholder="150"
               />
             </Col>
 
@@ -118,8 +94,8 @@ const CreateAdmin = () => {
             >
               <FormTextArea
                 name="description"
-                label="Service Description"
-                placeholder="Write here service description"
+                label="Description"
+                placeholder="Write here blog"
               />
             </Col>
             <Col
@@ -147,4 +123,4 @@ const CreateAdmin = () => {
   );
 };
 
-export default CreateAdmin;
+export default EditBlog;

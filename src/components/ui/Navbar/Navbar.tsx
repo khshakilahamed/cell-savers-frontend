@@ -95,7 +95,7 @@ const Navbar = () => {
 
   return (
     <Layout className="layout">
-      <Header className="flex gap-2 items-center">
+      <Header className="flex gap-2 items-center fixed left-0 right-0 z-10">
         {pathname !== "/" && (
           <MenuUnfoldOutlined
             className="lg:hidden text-white text-2xl"

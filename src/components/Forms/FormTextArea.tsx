@@ -12,7 +12,7 @@ type TextAreaProps = {
 const FormTextArea = ({
   name,
   label,
-  rows,
+  rows = 5,
   value,
   placeholder,
 }: TextAreaProps) => {

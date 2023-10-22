@@ -28,7 +28,7 @@ const LoginPage = () => {
         storeUserInfo({ accessToken: res?.accessToken });
         router.push("/");
       } else {
-        message.error("Access token not found");
+        message.error("Something went wrong");
       }
     } catch (error) {
       message.error("Something went wrong");

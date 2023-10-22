@@ -4,7 +4,7 @@ import aboutImage from "./../../../assets/about-image.png";
 
 const RepairStore = () => {
   return (
-    <div className="my-10 px-5 lg:px-20 xl:px-64">
+    <div className="my-10 px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64">
       <div className="text-center my-20">
         <h2 className="text-3xl">We are repair store</h2>
         <p className="uppercase text-sm mt-2">

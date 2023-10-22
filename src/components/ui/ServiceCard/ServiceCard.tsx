@@ -1,9 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import { getUserInfo } from "@/services/auth.service";
 import { IService } from "@/types/global";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Divider } from "antd";
 import Image from "next/image";
 import Link from "next/link";
+import MyButton from "../Button/Button";
+import BlankImage from "./../../../assets/cameraIcon.png";
 
 const ServiceCard = ({ service }: { service: IService }) => {
   const { role } = getUserInfo() as any;
@@ -11,19 +14,26 @@ const ServiceCard = ({ service }: { service: IService }) => {
   return (
     <div className="w-[300px]">
       <div>
-        <Image
-          src={service?.image}
-          width={300}
-          height={200}
-          alt="service-image"
-        />
+        <Link href={`/services/${service?.id}/details`}>
+          <Image
+            src={service?.image}
+            width={300}
+            height={200}
+            alt="service-image"
+          />
+        </Link>
       </div>
       <div className="mt-2">
-        <h2>
-          {service?.title.length > 20
-            ? service?.title?.slice(0, 20) + "..."
-            : service?.title}
-        </h2>
+        <Link
+          href={`/services/${service?.id}/details`}
+          className="decoration-white text-black"
+        >
+          <h2>
+            {service?.title.length > 20
+              ? service?.title?.slice(0, 20) + "..."
+              : service?.title}
+          </h2>
+        </Link>
         <p className="text-sm pt-2">
           <UserOutlined /> BY ADMIN
         </p>
@@ -47,14 +57,19 @@ const ServiceCard = ({ service }: { service: IService }) => {
             {service?.description.length > 150
               ? service.description.slice(0, 150) + "..."
               : service?.description}
-          </p>
-          <div className="mt-5">
             <Link href={`/services/${service?.id}/details`}>
-              <Button type="primary" ghost className="uppercase">
+              <MyButton
+                className="bg-transparent text-black rounded bg-gray-100 p-2 capitalize"
+                // style={{ border: "1px solid gray" }}
+              >
                 Read More
-              </Button>
+              </MyButton>
+              {/* <Button type="primary" ghost className="uppercase">
+                Read More
+              </Button> */}
             </Link>
-          </div>
+          </p>
+          <div></div>
         </div>
       </div>
     </div>
