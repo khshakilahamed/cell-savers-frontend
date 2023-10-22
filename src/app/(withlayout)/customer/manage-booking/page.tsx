@@ -141,16 +141,18 @@ const ManageBooking = () => {
       render: function (data: any) {
         return (
           <div className="flex flex-wrap gap-1 ">
-            <Button
-              type="primary"
-              danger
-              onClick={() => {
-                setOpen(true);
-                setBookingId(data?.id);
-              }}
-            >
-              <DeleteOutlined />
-            </Button>
+            {data?.bookingStatus !== "CONFIRM" && (
+              <Button
+                type="primary"
+                danger
+                onClick={() => {
+                  setOpen(true);
+                  setBookingId(data?.id);
+                }}
+              >
+                <DeleteOutlined />
+              </Button>
+            )}
           </div>
         );
       },
@@ -176,27 +178,10 @@ const ManageBooking = () => {
   return (
     <div>
       <ActionBar title="My Bookings">
-        {/* <Input
-      size="large"
-      placeholder="Search"
-      onChange={(e) => setSearchTerm(e.target.value)}
-      style={{
-        width: "20%",
-      }}
-    /> */}
         <div>
           <Link href={`/${role}/make-booking/`}>
             <Button type="primary">Make a Book</Button>
           </Link>
-          {/* {(!!sortBy || !!sortOrder || !!searchTerm) && (
-            <Button
-              style={{ margin: "0px 5px" }}
-              type="primary"
-              onClick={resetFilters}
-            >
-              <ReloadOutlined />
-            </Button>
-          )} */}
         </div>
       </ActionBar>
 

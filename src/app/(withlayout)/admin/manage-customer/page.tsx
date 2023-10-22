@@ -81,7 +81,7 @@ const ManageCustomerPage = () => {
       // dataIndex: "firstName",
       render: function (data: any) {
         return (
-          <>
+          <div className="flex items-center gap-2">
             {data?.profilePicture ? (
               <Link href={data?.profilePicture} target="blank">
                 <Avatar shape="square" size={64} src={data?.profilePicture} />
@@ -89,7 +89,10 @@ const ManageCustomerPage = () => {
             ) : (
               <Avatar shape="square" size={64} icon={<UserOutlined />} />
             )}
-          </>
+            <p>
+              {data?.firstName} {data?.lastName}
+            </p>
+          </div>
         );
       },
       sorter: true,
@@ -175,9 +178,7 @@ const ManageCustomerPage = () => {
           size="large"
           placeholder="Search"
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            width: "20%",
-          }}
+          className="w-[75%] md:w-[25%]"
         />
         <div>
           <Link href={`/${role}/manage-customer/create-customer`}>

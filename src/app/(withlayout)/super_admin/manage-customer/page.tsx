@@ -19,6 +19,8 @@ import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
 import CSModal from "@/components/ui/Modal/CSModal";
 import dayjs from "dayjs";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Space } from "antd";
 
 const ManageCustomerPage = () => {
   const { role } = getUserInfo() as any;
@@ -79,9 +81,18 @@ const ManageCustomerPage = () => {
       // dataIndex: "firstName",
       render: function (data: any) {
         return (
-          <>
-            {data?.firstName} {data?.lastName}
-          </>
+          <div className="flex items-center gap-2">
+            {data?.profilePicture ? (
+              <Link href={data?.profilePicture} target="blank">
+                <Avatar shape="square" size={64} src={data?.profilePicture} />
+              </Link>
+            ) : (
+              <Avatar shape="square" size={64} icon={<UserOutlined />} />
+            )}
+            <p>
+              {data?.firstName} {data?.lastName}
+            </p>
+          </div>
         );
       },
       sorter: true,
@@ -117,6 +128,16 @@ const ManageCustomerPage = () => {
       render: function (data: any) {
         return (
           <div className="flex flex-wrap gap-1 ">
+            <Link href={`/${role}/manage-customer/${data?.id}/details`}>
+              <Button type="primary">
+                <InfoCircleOutlined />
+              </Button>
+            </Link>
+            <Link href={`/${role}/manage-customer/${data?.id}/edit`}>
+              <Button type="primary" ghost>
+                <EditOutlined />
+              </Button>
+            </Link>
             <Button
               type="primary"
               danger
@@ -127,16 +148,6 @@ const ManageCustomerPage = () => {
             >
               <DeleteOutlined />
             </Button>
-            <Link href={`/${role}/manage-customer/${data?.id}/edit`}>
-              <Button type="primary">
-                <EditOutlined />
-              </Button>
-            </Link>
-            <Link href={`/${role}/manage-customer/${data?.id}/details`}>
-              <Button type="primary">
-                <InfoCircleOutlined />
-              </Button>
-            </Link>
           </div>
         );
       },
@@ -167,9 +178,7 @@ const ManageCustomerPage = () => {
           size="large"
           placeholder="Search"
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            width: "20%",
-          }}
+          className="w-[75%] md:w-[25%]"
         />
         <div>
           <Link href={`/${role}/manage-customer/create-customer`}>
