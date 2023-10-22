@@ -53,20 +53,14 @@ const ServiceCard = ({ service }: { service: IService }) => {
         <Divider />
 
         <div>
-          <p className="text-lg">
+          <p className="text-lg text-justify">
             {service?.description.length > 150
               ? service.description.slice(0, 150) + "..."
               : service?.description}
             <Link href={`/services/${service?.id}/details`}>
-              <MyButton
-                className="bg-transparent text-black rounded bg-gray-100 p-2 capitalize"
-                // style={{ border: "1px solid gray" }}
-              >
+              <MyButton className="bg-transparent text-black rounded bg-gray-100 p-2 capitalize">
                 Read More
               </MyButton>
-              {/* <Button type="primary" ghost className="uppercase">
-                Read More
-              </Button> */}
             </Link>
           </p>
           <div></div>

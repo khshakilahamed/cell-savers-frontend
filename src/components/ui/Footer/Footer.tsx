@@ -19,7 +19,7 @@ const Footer = () => {
             {/* <Button type="primary" className="uppercase">
               Get Started
             </Button> */}
-            <MyButton className=" bg-slate-300 text-black block w-[150px] hover:bg-slate-600 hover:text-white">
+            <MyButton className=" bg-slate-300 text-black block w-[150px] hover:bg-slate-600 hover:text-white font-bold">
               Get Started
             </MyButton>
           </div>

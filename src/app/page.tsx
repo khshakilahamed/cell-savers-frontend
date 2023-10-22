@@ -1,6 +1,8 @@
 import Banner from "@/components/ui/Banner/Banner";
 import BannerBottom from "@/components/ui/Banner/BannerBottom";
+import CSCarousel from "@/components/ui/Carousel/Carousel";
 import FaqSection from "@/components/ui/FaqSection/FaqSection";
+import CustomerFeedback from "@/components/ui/Feedback/Feedback";
 import Footer from "@/components/ui/Footer/Footer";
 import HomeServices from "@/components/ui/HomeServices/HomeServices";
 import Navbar from "@/components/ui/Navbar/Navbar";
@@ -16,9 +18,10 @@ const HomePage = () => {
         <RepairStore />
         <HomeServices />
         <FaqSection />
-        <div className="mt-36">
-          <Footer />
-        </div>
+        <CustomerFeedback />
+        {/* <div className="mt-36"> */}
+        <Footer />
+        {/* </div> */}
       </div>
     </div>
   );

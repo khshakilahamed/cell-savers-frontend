@@ -36,12 +36,12 @@ const RegisterPage = () => {
   };
   return (
     <div className=" w-full">
-      <div className="flex items-center justify-evenly w-full min-h-screen">
-        <div className="w-[50%] flex justify-center">
+      <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-screen gap-5">
+        <div className="hidden w-full md:w-[50%] md:flex justify-center">
           <Image src={signUpImage} width="500" alt="login-image" />
         </div>
-        <div className="w-[50%]">
-          <div className="w-[50%] border-2">
+        <div className="w-full md:w-[50%] px-5 md:px-0">
+          <div className="min-w-[350px] md:w-[50%] border-2">
             <h1 className="text-center text-4xl pb-10">
               <Link
                 href="/"
@@ -53,8 +53,8 @@ const RegisterPage = () => {
             </h1>
             <Divider className="uppercase">Sign up here</Divider>
             <Form submitHandler={onSubmit}>
-              <div className="flex flex-wrap  justify-between">
-                <div className="w-[49%]">
+              <div className="min-w-[350px] flex flex-wrap  justify-between">
+                <div className="w-full sm:w-[49%]">
                   <FormInput
                     name="firstName"
                     type="text"
@@ -63,7 +63,7 @@ const RegisterPage = () => {
                     placeholder="First Name"
                   />
                 </div>
-                <div className="w-[49%]">
+                <div className="w-full sm:w-[49%]">
                   <FormInput
                     name="lastName"
                     type="text"
@@ -73,7 +73,7 @@ const RegisterPage = () => {
                   />
                 </div>
               </div>
-              <div className="my-2">
+              <div className="min-w-[350px] my-2">
                 <FormInput
                   name="email"
                   type="email"
@@ -82,7 +82,7 @@ const RegisterPage = () => {
                   placeholder="abc@gmail.com"
                 />
               </div>
-              <div className="my-2">
+              <div className="min-w-[350px] my-2">
                 <FormInput
                   name="contactNo"
                   type="text"
@@ -91,7 +91,7 @@ const RegisterPage = () => {
                   placeholder="016XX-XXXXXX"
                 />
               </div>
-              <div className="my-2">
+              <div className="min-w-[350px] my-2">
                 <FormInput
                   name="password"
                   type="password"
