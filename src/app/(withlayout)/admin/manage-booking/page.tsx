@@ -301,18 +301,18 @@ const ManageBookingPage = () => {
             )}
 
             <ToolTip text="Details">
-              {/* <Link href={`/${role}/manage-customer/${data?.id}/details`}> */}
-              <Button type="primary">
-                <InfoCircleOutlined />
-              </Button>
-              {/* </Link> */}
+              <Link href={`/${role}/manage-booking/${data?.id}/details`}>
+                <Button type="primary">
+                  <InfoCircleOutlined />
+                </Button>
+              </Link>
             </ToolTip>
             <ToolTip text="Edit / Update">
-              {/* <Link href={`/${role}/manage-customer/${data?.id}/edit`}> */}
-              <Button type="primary" ghost>
-                <EditOutlined />
-              </Button>
-              {/* </Link> */}
+              <Link href={`/${role}/manage-booking/${data?.id}/edit`}>
+                <Button type="primary" ghost>
+                  <EditOutlined />
+                </Button>
+              </Link>
             </ToolTip>
             <ToolTip text="Delete">
               <Button

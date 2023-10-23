@@ -27,7 +27,7 @@ const MakeBooking = () => {
   if (!!timeSlotId) {
     query["timeSlot"] = timeSlotId;
   }
-  if (!!timeSlotId) {
+  if (!!bookingDate) {
     query["bookingDate"] = bookingDate;
   }
 

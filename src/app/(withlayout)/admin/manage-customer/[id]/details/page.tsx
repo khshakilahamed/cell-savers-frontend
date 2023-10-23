@@ -10,7 +10,7 @@ import Link from "next/link";
 import MyButton from "@/components/ui/Button/Button";
 import { getUserInfo } from "@/services/auth.service";
 
-const EditCustomer = ({ params }: { params: any }) => {
+const CustomerDetails = ({ params }: { params: any }) => {
   const { role } = getUserInfo() as any;
   const { id } = params;
   const { data, isLoading } = useCustomerQuery(id);
@@ -81,4 +81,4 @@ const EditCustomer = ({ params }: { params: any }) => {
   );
 };
 
-export default EditCustomer;
+export default CustomerDetails;
