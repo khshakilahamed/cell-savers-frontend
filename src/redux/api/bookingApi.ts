@@ -78,6 +78,23 @@ export const bookingApi: any = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.booking],
     }),
+    // get all technician bookings
+    technicianBooking: build.query({
+      query: (arg: Record<string, any>) => {
+        return {
+          url: `${BOOKING_URL}/technician-bookings`,
+          method: "GET",
+          params: arg,
+        };
+      },
+      transformResponse: (response: IBooking[], meta: IMeta) => {
+        return {
+          bookings: response,
+          meta,
+        };
+      },
+      providesTags: [tagTypes.booking],
+    }),
   }),
 });
 
@@ -90,4 +107,5 @@ export const {
   useCustomerMyBookingQuery,
   useConfirmBookingMutation,
   useCancelBookingMutation,
+  useTechnicianBookingQuery,
 } = bookingApi;

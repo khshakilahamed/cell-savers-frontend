@@ -1,6 +1,5 @@
 import Banner from "@/components/ui/Banner/Banner";
 import BannerBottom from "@/components/ui/Banner/BannerBottom";
-import CSCarousel from "@/components/ui/Carousel/Carousel";
 import FaqSection from "@/components/ui/FaqSection/FaqSection";
 import CustomerFeedback from "@/components/ui/Feedback/Feedback";
 import Footer from "@/components/ui/Footer/Footer";
