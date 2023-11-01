@@ -50,3 +50,14 @@ export const bookingStatus = [
     value: "CANCELLED",
   },
 ];
+
+export const issueStatusForTechnician = [
+  {
+    label: "FIXED",
+    value: "FIXED",
+  },
+  {
+    label: "NOT_FIXED",
+    value: "NOT_FIXED",
+  },
+];

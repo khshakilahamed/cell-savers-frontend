@@ -20,10 +20,10 @@ const MyButton = ({
   disabled = false,
   style,
 }: IMyButtonProps) => {
-  const classDisableStyle = "bg-gray-400";
+  const classDisableStyle = "bg-gray-200 text-black hover:bg-gray-200";
 
   const classStyles = twMerge(
-    `uppercase py-3 px-5 text-white cursor-pointer bg-slate-800 ${
+    `uppercase py-3 px-5 text-white cursor-pointer bg-slate-800 hover:bg-slate-700 ${
       disabled && classDisableStyle
     }`,
     className

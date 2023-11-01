@@ -95,6 +95,15 @@ export const bookingApi: any = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.booking],
     }),
+    // update technician booking
+    updateTechnicianBooking: build.mutation({
+      query: (data) => ({
+        url: `${BOOKING_URL}/technician-my-booking`,
+        method: "PATCH",
+        data: data,
+      }),
+      invalidatesTags: [tagTypes.booking],
+    }),
   }),
 });
 
@@ -108,4 +117,5 @@ export const {
   useConfirmBookingMutation,
   useCancelBookingMutation,
   useTechnicianBookingQuery,
+  useUpdateTechnicianBookingMutation,
 } = bookingApi;

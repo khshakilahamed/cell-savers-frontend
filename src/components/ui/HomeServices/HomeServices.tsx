@@ -35,7 +35,12 @@ const HomeServices = () => {
 
       <div className="mt-14 text-center">
         <Link href="/services">
-          <MyButton>More Services</MyButton>
+          <MyButton
+            className="bg-transparent text-black hover:bg-black hover:text-white hover:transition-all"
+            style={{ border: "1px solid" }}
+          >
+            More Services
+          </MyButton>
         </Link>
       </div>
     </div>

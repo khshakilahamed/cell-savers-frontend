@@ -2,13 +2,12 @@
 
 import CSTable from "@/components/ui/Table/CSTable";
 import { useDeleteCustomerMutation } from "@/redux/api/customerApi";
-import { Button, Divider, Input, message } from "antd";
+import { Button, Divider, Input, Spin, message } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import {
-  DeleteOutlined,
-  EditOutlined,
-  InfoCircleOutlined,
+  LoadingOutlined,
+  PrinterFilled,
   ReloadOutlined,
   MailOutlined,
   PhoneOutlined,
@@ -26,14 +25,24 @@ import {
   useConfirmBookingMutation,
   useDeleteBookingMutation,
   useTechnicianBookingQuery,
+  useUpdateTechnicianBookingMutation,
 } from "@/redux/api/bookingApi";
 import tickIcon from "./../../../../assets/icons/check.png";
 import cancelIcon from "./../../../../assets/icons/close.png";
 import Image from "next/image";
 import ToolTip from "@/components/ui/ToolTip/ToolTip";
+import Form from "@/components/Forms/Form";
+import FormSelectField, {
+  SelectOptions,
+} from "@/components/Forms/FormSelectField";
+import { issueStatusForTechnician } from "@/constants/global";
+import FormTextArea from "@/components/Forms/FormTextArea";
+import MyButton from "@/components/ui/Button/Button";
+import Spinner from "@/components/ui/Spinner/Spinner";
+import CircleSpinner from "@/components/ui/Spinner/CircleSpinner";
 
 const ManageBookingPage = () => {
-  const { role, userId } = getUserInfo() as any;
+  const { role } = getUserInfo() as any;
   const query: Record<string, any> = {};
 
   const [page, setPage] = useState<number>(1);
@@ -41,9 +50,10 @@ const ManageBookingPage = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
-  const [cancelOpen, setCancelOpen] = useState<boolean>(false);
+  const [confirmServiceOpen, setConfirmServiceOpen] = useState<boolean>(false);
   const [bookingId, setBookingId] = useState<string>("");
+  const [customer, setCustomer] = useState<string>("");
+  const [service, setService] = useState<string>("");
 
   query["limit"] = size;
   query["page"] = page;
@@ -64,26 +74,25 @@ const ManageBookingPage = () => {
   const bookings = data?.bookings;
   const meta = data?.meta;
 
-  console.log(bookings);
+  const [updateTechnicianBooking, { isLoading: isBookingLoading }] =
+    useUpdateTechnicianBookingMutation();
 
-  const [deleteCustomer, { isLoading: isDeleteLoading }] =
-    useDeleteBookingMutation();
-
-  const confirmHandler = async (id: string) => {
-    // console.log(id);
+  const onSubmit = async (updatedData: any) => {
     try {
-      const res = await deleteCustomer(id).unwrap();
+      updatedData["id"] = bookingId;
+      message.loading("Updating...");
 
-      if (isDeleteLoading) {
-        message.loading("Deleting...");
-      }
-      if (res && !isDeleteLoading) {
-        message.success("Customer Deleted Successfully!");
-        setDeleteOpen(false);
+      const res = await updateTechnicianBooking(updatedData).unwrap();
+
+      setConfirmServiceOpen(false);
+
+      if (res && !isBookingLoading) {
+        message.success("Updated successfully");
       } else {
-        message.error("Something went wrong!");
+        message.error("Something went  wrong");
       }
     } catch (error: any) {
+      console.log(message);
       message.error(error.message);
     }
   };
@@ -132,7 +141,7 @@ const ManageBookingPage = () => {
       sorter: true,
     },
     {
-      title: "Booking Date & Time",
+      title: "Date & Time",
       //   dataIndex: "email",
       render: function (data: any) {
         return (
@@ -187,18 +196,32 @@ const ManageBookingPage = () => {
       render: function (data: any) {
         return (
           <div className="flex flex-wrap gap-1 ">
-            {data.bookingStatus === "PENDING" && (
-              <ToolTip text="Confirm Booking">
-                <Button onClick={() => confirmHandler(data?.id)}>
-                  <Image
-                    src={tickIcon}
-                    height={20}
-                    width={20}
-                    alt="tick icon"
-                  />
-                </Button>
-              </ToolTip>
-            )}
+            {data.bookingStatus === "CONFIRM" &&
+              data?.issueStatus === "ONGOING" && (
+                <ToolTip text="Confirm Booking">
+                  <Button
+                    onClick={() => {
+                      setBookingId(data?.id);
+                      setConfirmServiceOpen(true);
+                      setCustomer(
+                        `${data?.customer?.firstName} ${data?.customer?.lastName}`
+                      );
+                      setService(`${data?.service?.title}`);
+                    }}
+                  >
+                    <Image
+                      src={tickIcon}
+                      height={20}
+                      width={20}
+                      alt="tick icon"
+                    />
+                  </Button>
+                </ToolTip>
+              )}
+
+            <Button>
+              <PrinterFilled />
+            </Button>
           </div>
         );
       },
@@ -262,14 +285,63 @@ const ManageBookingPage = () => {
       </div>
 
       {/* model for cancel booking */}
-      {/* <CSModal
-        title="Cancel Booking"
-        isOpen={cancelOpen}
-        closeModal={() => setCancelOpen(false)}
-        handleOk={() => cancelHandler(bookingId)}
+      <CSModal
+        title="Confirm Service"
+        isOpen={confirmServiceOpen}
+        closeModal={() => setConfirmServiceOpen(false)}
+        // handleOk={() => confirmServiceHandler(bookingId)}
+        showCancelButton={false}
+        showOkButton={false}
       >
-        <p className="my-5">Do you want to cancel this booking?</p>
-      </CSModal> */}
+        <>
+          <div style={{ margin: "10px 0px" }}>
+            <label htmlFor="">Customer name</label>
+            <Input className="font-bold" value={customer} disabled />
+          </div>
+
+          <div style={{ margin: "10px 0px" }}>
+            <label htmlFor="">Service</label>
+            <Input className="font-bold" value={service} disabled />
+          </div>
+          <Form submitHandler={onSubmit}>
+            <div style={{ margin: "10px 0px" }}>
+              <FormSelectField
+                options={issueStatusForTechnician as SelectOptions[]}
+                name="issueStatus"
+                label="Issue Status"
+              />
+            </div>
+
+            <div style={{ margin: "10px 0px" }}>
+              <FormTextArea
+                name="fixDescription"
+                label="Description"
+                placeholder="Write here details"
+              />
+            </div>
+
+            <div className="mt-3 flex gap-2 justify-end">
+              <MyButton
+                onClick={() => setConfirmServiceOpen(false)}
+                className="py-2 px-2 rounded-md bg-transparent text-black hover:bg-slate-700 hover:text-white hover:transition-all"
+                style={{ border: "1px solid black" }}
+              >
+                Cancel
+              </MyButton>
+              <MyButton
+                className="py-2 px-2 rounded-md"
+                disabled={isBookingLoading ? true : false}
+                type="submit"
+              >
+                <div className="flex gap-2 items-center">
+                  {isBookingLoading && <CircleSpinner />}
+                  Confirm
+                </div>
+              </MyButton>
+            </div>
+          </Form>
+        </>
+      </CSModal>
     </div>
   );
 };

@@ -44,9 +44,7 @@ const ServiceCard = ({ service }: { service: IService }) => {
           </p>
           <p>
             <Link href={`${role}/selected-booking/${service?.id}`}>
-              <Button type="primary" className="uppercase">
-                Book Now
-              </Button>
+              <MyButton className="uppercase py-2 px-3">Book Now</MyButton>
             </Link>
           </p>
         </div>
@@ -63,7 +61,6 @@ const ServiceCard = ({ service }: { service: IService }) => {
               </MyButton>
             </Link>
           </p>
-          <div></div>
         </div>
       </div>
     </div>

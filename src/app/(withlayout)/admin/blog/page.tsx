@@ -49,6 +49,8 @@ const ManageBlogs = () => {
   const { data, isLoading } = useBlogsQuery({ ...query });
   const [deleteBlog, { isLoading: isDeleteLoading }] = useDeleteBlogMutation();
 
+  console.log(data);
+
   if (isLoading) {
     return (
       <div className="w-full h-full flex justify-center items-center">
@@ -134,44 +136,46 @@ const ManageBlogs = () => {
             i,
             blogs
           ) => (
-            <div key={id} className="flex flex-col md:flex-row  gap-3">
-              <div className="w-[50%] md:w-[30%]">
-                {image ? (
-                  <img className="w-full" src={image} alt="image" />
+            <div key={id}>
+              <div className="flex items-center gap-3 my-4">
+                {customerAgent?.profilePicture ? (
+                  <Avatar size={45} src={customerAgent?.profilePicture} />
                 ) : (
-                  <Image src={cameraIcon} width={400} alt={title} />
+                  <Avatar size={45} icon={<UserOutlined />} />
                 )}
-              </div>
-              <div className="md:w-[70%]">
-                <div className="flex items-center gap-3 my-4">
-                  {customerAgent?.profilePicture ? (
-                    <Avatar size={45} src={customerAgent?.profilePicture} />
-                  ) : (
-                    <Avatar size={45} icon={<UserOutlined />} />
-                  )}
-                  <div className="flex items-center">
-                    <div>
-                      <h3>
-                        {customerAgent.firstName} {customerAgent.lastName}
-                      </h3>
-                      <p>{dayjs(createdAt).format("MMM D, YYYY hh:mm A")}</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <Popover
-                        placement="rightTop"
-                        title={"Options"}
-                        content={() => content(id)}
-                        trigger="click"
-                      >
-                        <MyButton className="font-bold bg-transparent text-black text-2xl">
-                          ...
-                        </MyButton>
-                      </Popover>
-                    </div>
+                <div className="flex items-center">
+                  <div>
+                    <h3>
+                      {customerAgent.firstName} {customerAgent.lastName}
+                    </h3>
+                    <p>{dayjs(createdAt).format("MMM D, YYYY hh:mm A")}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Popover
+                      placement="rightTop"
+                      title={"Options"}
+                      content={() => content(id)}
+                      trigger="click"
+                    >
+                      <MyButton className="font-bold bg-transparent text-black text-2xl">
+                        ...
+                      </MyButton>
+                    </Popover>
                   </div>
                 </div>
-                <h2 className="text-xl">{title}</h2>
-                <p className="text-lg">{description}</p>
+              </div>
+              <div className="flex flex-col md:flex-row  gap-3">
+                <div className="w-[50%] md:w-[30%]">
+                  {image ? (
+                    <img className="w-full" src={image} alt="image" />
+                  ) : (
+                    <Image src={cameraIcon} width={400} alt={title} />
+                  )}
+                </div>
+                <div className="md:w-[70%]">
+                  <h2 className="text-xl">{title}</h2>
+                  <p className="text-lg">{description}</p>
+                </div>
               </div>
               {blogs.length - 1 !== i && <Divider />}
             </div>
