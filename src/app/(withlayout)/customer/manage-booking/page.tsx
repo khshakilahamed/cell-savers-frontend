@@ -4,12 +4,7 @@ import CSTable from "@/components/ui/Table/CSTable";
 import { Button, message } from "antd";
 import Link from "next/link";
 import { useState } from "react";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  InfoCircleOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, MessageOutlined } from "@ant-design/icons";
 import { getUserInfo } from "@/services/auth.service";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
@@ -22,6 +17,7 @@ import {
   useCustomerMyBookingQuery,
   useDeleteBookingMutation,
 } from "@/redux/api/bookingApi";
+import ToolTip from "@/components/ui/ToolTip/ToolTip";
 
 const ManageBooking = () => {
   const { role } = getUserInfo() as any;
@@ -78,9 +74,8 @@ const ManageBooking = () => {
       title: "Service",
       dataIndex: "service",
       render: function (data: any) {
-        return <>{data?.title}</>;
+        return <div className="capitalize">{data?.title}</div>;
       },
-      sorter: true,
     },
     {
       title: "Price",
@@ -88,7 +83,6 @@ const ManageBooking = () => {
       render: function (data: any) {
         return <>{data?.price}</>;
       },
-      sorter: true,
     },
     {
       title: "Service Date",
@@ -152,6 +146,13 @@ const ManageBooking = () => {
               >
                 <DeleteOutlined />
               </Button>
+            )}
+            {data?.readyToReview && (
+              <ToolTip text="Review">
+                <Button>
+                  <MessageOutlined className="font-xl" />
+                </Button>
+              </ToolTip>
             )}
           </div>
         );

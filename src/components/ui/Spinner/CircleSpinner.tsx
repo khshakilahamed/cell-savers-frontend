@@ -1,10 +1,4 @@
-import {
-  LoadingOutlined,
-  PrinterFilled,
-  ReloadOutlined,
-  MailOutlined,
-  PhoneOutlined,
-} from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 
 const CircleSpinner = ({ fontSize = 16 }: { fontSize?: number }) => {

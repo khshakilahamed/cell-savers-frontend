@@ -12,7 +12,7 @@ const ServiceCard = ({ service }: { service: IService }) => {
   const { role } = getUserInfo() as any;
 
   return (
-    <div className="w-[300px]">
+    <div className="w-[300px] shadow">
       <div>
         <Link href={`/services/${service?.id}/details`}>
           <Image
@@ -23,12 +23,13 @@ const ServiceCard = ({ service }: { service: IService }) => {
           />
         </Link>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 px-3 pb-3">
         <Link
           href={`/services/${service?.id}/details`}
-          className="decoration-white text-black"
+          className="decoration-none text-black"
+          style={{ textDecoration: "none" }}
         >
-          <h2>
+          <h2 className="text-xl capitalize">
             {service?.title.length > 20
               ? service?.title?.slice(0, 20) + "..."
               : service?.title}
@@ -51,12 +52,12 @@ const ServiceCard = ({ service }: { service: IService }) => {
         <Divider />
 
         <div>
-          <p className="text-lg text-justify">
+          <p className="text-base text-justify">
             {service?.description.length > 150
               ? service.description.slice(0, 150) + "..."
               : service?.description}
             <Link href={`/services/${service?.id}/details`}>
-              <MyButton className="bg-transparent text-black rounded bg-gray-100 p-2 capitalize">
+              <MyButton className="bg-transparent text-black rounded bg-gray-100 p-2 capitalize hover:text-white">
                 Read More
               </MyButton>
             </Link>

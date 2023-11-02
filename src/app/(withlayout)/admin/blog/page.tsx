@@ -174,7 +174,14 @@ const ManageBlogs = () => {
                 </div>
                 <div className="md:w-[70%]">
                   <h2 className="text-xl">{title}</h2>
-                  <p className="text-lg">{description}</p>
+                  <p className="text-lg">
+                    {description.length > 0
+                      ? `${description.slice(0, 500)}...`
+                      : description}
+                    <MyButton className="bg-transparent text-black rounded bg-gray-100 p-2 capitalize hover:text-white">
+                      Read More
+                    </MyButton>
+                  </p>
                 </div>
               </div>
               {blogs.length - 1 !== i && <Divider />}
