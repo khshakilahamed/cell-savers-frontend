@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Dropdown, Layout, Menu } from "antd";
@@ -14,13 +15,10 @@ import { MenuUnfoldOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Space } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
+import logo from "./../../../assets/logo.png";
+import { navbarPathnames } from "@/constants/global";
 
 const { Header, Content } = Layout;
-
-type IProps = {
-  avatar?: React.ReactElement | React.ReactNode;
-  menuItems: INavItems;
-};
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -61,19 +59,30 @@ const Navbar = () => {
 
   return (
     <Layout className="layout" style={{ padding: "0" }}>
-      <Header className="flex gap-2 items-center fixed left-0 right-0 z-10">
-        {pathname !== "/" && (
+      <Header
+        className={`${
+          navbarPathnames.includes(pathname)
+            ? "px-5 lg:px-20 xl:px-50 2xl:px-50 3xl:px-64"
+            : ""
+        } flex gap-2 items-center fixed left-0 right-0 z-10`}
+      >
+        {!navbarPathnames.includes(pathname) && (
           <MenuUnfoldOutlined
             className="lg:hidden text-white text-2xl"
             onClick={() => dispatch(showSidebarDrawer())}
           />
         )}
         <Content>
-          <Link href="/">
-            <Title className="text-white mb-0 flex gap-2 text-2xl lg:text-4xl">
-              CellSavers
-            </Title>
-          </Link>
+          <Title className="text-white mb-0 flex gap-2 text-2xl lg:text-4xl">
+            <Link href="/">
+              {/* CellSavers */}
+              <img
+                className="max-h-[50px] w-auto"
+                src="https://i.ibb.co/hHqy2x6/cell-Savers-logo.png"
+                alt="logo"
+              />
+            </Link>
+          </Title>
         </Content>
         {/* when display lg */}
         <Menu

@@ -83,6 +83,8 @@ export interface IReview {
   id: string;
   rating: number;
   comment: string;
+  customerId: string;
+  customer: ICustomer;
   createdAt: string;
   updatedAt: string;
 }

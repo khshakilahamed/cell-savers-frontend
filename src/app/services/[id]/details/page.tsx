@@ -3,11 +3,16 @@
 
 import Spinner from "@/components/ui/Spinner/Spinner";
 import { useServiceQuery } from "@/redux/api/serviceApi";
-import { Button, Divider } from "antd";
-import Image from "next/image";
+import { Divider } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import MyButton from "@/components/ui/Button/Button";
+import Link from "next/link";
+import { getUserInfo } from "@/services/auth.service";
+import ReviewCard from "@/components/ui/ReviewCard/ReviewCard";
+import { IReview } from "@/types/global";
 
 const ServiceDetails = ({ params }: { params: any }) => {
+  const { role } = getUserInfo() as any;
   const { id } = params;
 
   const { data, isLoading } = useServiceQuery(id);
@@ -41,20 +46,26 @@ const ServiceDetails = ({ params }: { params: any }) => {
               &#2547; <span className="font-bold text-lg">{data?.price}</span>
             </p>
             <p>
-              <Button type="primary" className="uppercase">
-                Book Now
-              </Button>
+              <Link href={`/${role}/selected-booking/${data?.id}`}>
+                <MyButton className="uppercase py-2 px-3">Book Now</MyButton>
+              </Link>
             </p>
           </div>
 
           <h4 className=" mt-4">Description:</h4>
-          <p className="text-lg">{data?.description}</p>
+          <p className="text-lg text-justify">{data?.description}</p>
         </div>
       </div>
 
       <div className="mt-10">
-        <h2>Reviews ({data?.reviews.length})</h2>
+        <h2>Review(s) [{data?.reviews.length}]</h2>
         <Divider />
+
+        <div>
+          {data?.reviews.map((review: IReview) => (
+            <ReviewCard review={review} key={review?.id} />
+          ))}
+        </div>
       </div>
     </div>
   );

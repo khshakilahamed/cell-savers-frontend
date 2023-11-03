@@ -1,7 +1,7 @@
 "use client";
 
 import CSTable from "@/components/ui/Table/CSTable";
-import { Button, message } from "antd";
+import { Button, Input, Rate, message } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import { DeleteOutlined, MessageOutlined } from "@ant-design/icons";
@@ -9,15 +9,16 @@ import { getUserInfo } from "@/services/auth.service";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import { useDebounced } from "@/redux/hook";
 import CSModal from "@/components/ui/Modal/CSModal";
-import { useAdminsQuery, useTechniciansQuery } from "@/redux/api/userApi";
-import { useDeleteCustomerAgentMutation } from "@/redux/api/customerAgentApi";
 import dayjs from "dayjs";
+import CircleSpinner from "@/components/ui/Spinner/CircleSpinner";
 
 import {
   useCustomerMyBookingQuery,
   useDeleteBookingMutation,
 } from "@/redux/api/bookingApi";
 import ToolTip from "@/components/ui/ToolTip/ToolTip";
+import MyButton from "@/components/ui/Button/Button";
+import { useAddReviewMutation } from "@/redux/api/reviewApi";
 
 const ManageBooking = () => {
   const { role } = getUserInfo() as any;
@@ -30,6 +31,11 @@ const ManageBooking = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
   const [bookingId, setBookingId] = useState<string>("");
+  const [reviewOpen, setReviewOpen] = useState<boolean>(false);
+  const [rating, setRating] = useState<number>(5);
+  const [comment, setComment] = useState<string>("");
+
+  const desc = ["very bad", "bad", "average", "good", "excellent"];
 
   query["limit"] = size;
   query["page"] = page;
@@ -55,12 +61,28 @@ const ManageBooking = () => {
       message.loading("Deleting...");
       const res = await deleteBooking(id).unwrap();
 
-      if (isDeleteLoading) {
-        message.loading("Deleting...");
-      }
       if (res) {
         setOpen(false);
         message.success("Booking Deleted Successfully!");
+      } else {
+        message.error("Something went wrong!");
+      }
+    } catch (error: any) {
+      message.error(error.message);
+    }
+  };
+
+  const [addReview, { isLoading: isReviewLoading }] = useAddReviewMutation();
+
+  const reviewHandler = async () => {
+    const reviewData = { bookingId, rating, comment };
+    try {
+      message.loading("Submitting...");
+      const res = await addReview(reviewData).unwrap();
+
+      if (res) {
+        setReviewOpen(false);
+        message.success("Review submitted Successfully!");
       } else {
         message.error("Something went wrong!");
       }
@@ -147,9 +169,14 @@ const ManageBooking = () => {
                 <DeleteOutlined />
               </Button>
             )}
-            {data?.readyToReview && (
+            {data?.readyToReview && !data?.isReviewDone && (
               <ToolTip text="Review">
-                <Button>
+                <Button
+                  onClick={() => {
+                    setReviewOpen(true);
+                    setBookingId(data?.id);
+                  }}
+                >
                   <MessageOutlined className="font-xl" />
                 </Button>
               </ToolTip>
@@ -181,7 +208,7 @@ const ManageBooking = () => {
       <ActionBar title="My Bookings">
         <div>
           <Link href={`/${role}/make-booking/`}>
-            <Button type="primary">Make a Book</Button>
+            <MyButton className="py-2 px-3">Make a Book</MyButton>
           </Link>
         </div>
       </ActionBar>
@@ -200,6 +227,7 @@ const ManageBooking = () => {
         />
       </div>
 
+      {/* remove booking modal */}
       <CSModal
         title="Remove Booking"
         isOpen={open}
@@ -207,6 +235,63 @@ const ManageBooking = () => {
         handleOk={() => deleteHandler(bookingId)}
       >
         <p className="my-5">Do you want to remove this booking?</p>
+      </CSModal>
+
+      {/* add review modal */}
+      <CSModal
+        title="Review & Rating"
+        isOpen={reviewOpen}
+        closeModal={() => setReviewOpen(false)}
+        // handleOk={() => confirmServiceHandler(bookingId)}
+        showCancelButton={false}
+        showOkButton={false}
+      >
+        <>
+          <div style={{ margin: "10px 0px" }}>
+            {/* <label htmlFor="">Rating</label> */}
+            <p>
+              <Rate
+                allowHalf
+                tooltips={desc}
+                onChange={setRating}
+                value={rating}
+              />
+              {rating ? (
+                <span className="ant-rate-text">{desc[rating - 1]}</span>
+              ) : (
+                ""
+              )}
+            </p>
+          </div>
+
+          <div style={{ margin: "10px 0px" }}>
+            <label htmlFor="">Comment</label>
+            <Input.TextArea
+              rows={5}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
+
+          <div className="mt-3 flex gap-2 justify-end">
+            <MyButton
+              onClick={() => setReviewOpen(false)}
+              className="py-2 px-2 rounded-md bg-transparent text-black hover:bg-slate-700 hover:text-white hover:transition-all"
+              style={{ border: "1px solid black" }}
+            >
+              Cancel
+            </MyButton>
+            <MyButton
+              className="py-2 px-2 rounded-md"
+              disabled={isReviewLoading ? true : false}
+              onClick={reviewHandler}
+            >
+              <div className="flex gap-2 items-center">
+                {isReviewLoading && <CircleSpinner />}
+                Submit
+              </div>
+            </MyButton>
+          </div>
+        </>
       </CSModal>
     </div>
   );

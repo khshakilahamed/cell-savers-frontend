@@ -61,3 +61,11 @@ export const issueStatusForTechnician = [
     value: "NOT_FIXED",
   },
 ];
+
+export const navbarPathnames = [
+  "/",
+  "/services",
+  "/blogs",
+  "/contact-us",
+  "/about-us",
+];

@@ -6,7 +6,6 @@ import { Button, Divider, Input, Spin, message } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import {
-  LoadingOutlined,
   PrinterFilled,
   ReloadOutlined,
   MailOutlined,
@@ -18,17 +17,12 @@ import { useDebounced } from "@/redux/hook";
 import CSModal from "@/components/ui/Modal/CSModal";
 import dayjs from "dayjs";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Space } from "antd";
+import { Avatar } from "antd";
 import {
-  useBookingsQuery,
-  useCancelBookingMutation,
-  useConfirmBookingMutation,
-  useDeleteBookingMutation,
   useTechnicianBookingQuery,
   useUpdateTechnicianBookingMutation,
 } from "@/redux/api/bookingApi";
 import tickIcon from "./../../../../assets/icons/check.png";
-import cancelIcon from "./../../../../assets/icons/close.png";
 import Image from "next/image";
 import ToolTip from "@/components/ui/ToolTip/ToolTip";
 import Form from "@/components/Forms/Form";
@@ -38,7 +32,6 @@ import FormSelectField, {
 import { issueStatusForTechnician } from "@/constants/global";
 import FormTextArea from "@/components/Forms/FormTextArea";
 import MyButton from "@/components/ui/Button/Button";
-import Spinner from "@/components/ui/Spinner/Spinner";
 import CircleSpinner from "@/components/ui/Spinner/CircleSpinner";
 
 const ManageBookingPage = () => {

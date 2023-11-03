@@ -11,7 +11,7 @@ import MyButton from "../Button/Button";
 
 const Banner = () => {
   return (
-    <div className="w-full">
+    <div className="w-full" style={{ background: "white" }}>
       <Carousel dots effect="fade" autoplay>
         {bannerItems.map((item) => (
           <div key={item.key} className="h-[65vh] w-full">

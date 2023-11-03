@@ -1,12 +1,11 @@
 "use client";
 
-import ActionBar from "@/components/ui/ActionBar/ActionBar";
-import Navbar from "@/components/ui/Navbar/Navbar";
+import MyButton from "@/components/ui/Button/Button";
 import ServiceCard from "@/components/ui/ServiceCard/ServiceCard";
 import Spinner from "@/components/ui/Spinner/Spinner";
 import { useServicesQuery } from "@/redux/api/serviceApi";
 import { useDebounced } from "@/redux/hook";
-import { Button, Divider, Input } from "antd";
+import { Divider, Input } from "antd";
 import { useState } from "react";
 
 const Services = () => {
@@ -53,9 +52,7 @@ const Services = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-[300px]"
           />
-          <button className="py-3 px-5 bg-blue-500 font-bold text-white rounded">
-            Search
-          </button>
+          <MyButton className="rounded-md">Search</MyButton>
         </div>
         <Divider />
 

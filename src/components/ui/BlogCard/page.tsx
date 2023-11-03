@@ -50,7 +50,7 @@ const BlogCard = ({
           </div>
 
           <Link
-            className="text-black decoration-white"
+            className="text-black decoration-white hover:decoration-black"
             href={`/blogs/${blog?.id}/details`}
           >
             <h2>{blog?.title}</h2>
