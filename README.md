@@ -28,6 +28,14 @@ Cell Savers is a mobile repair booking system project. In this project, users ca
 
 ---
 
+## Login page
+
+![Alt text](./src/assets/readmefile/login-page.png)
+
+## Register page
+
+![Alt text](./src/assets/readmefile/register-page.png)
+
 ## Landing page
 
-![Alt text](./src/assets/screencapture-cellsavers-frontend-khshakilahamed-vercel-app-2023-10-29-23_57_29.png)
+![Alt text](./src/assets/readmefile/screencapture-cellsavers-frontend-khshakilahamed-vercel-app-2023-11-05-13_17_25.png)
