@@ -25,3 +25,9 @@ Cell Savers is a mobile repair booking system project. In this project, users ca
 - The feedback and reviews will be saved into the database. The admin can check the feedback to display on the homepage of the website.
 - Admin and super admin has access to create blogs and FAQ.
 - Service and time slots could be created by admin and super admin.
+
+---
+
+## Landing page
+
+![Alt text](./src/assets/screencapture-cellsavers-frontend-khshakilahamed-vercel-app-2023-10-29-23_57_29.png)
