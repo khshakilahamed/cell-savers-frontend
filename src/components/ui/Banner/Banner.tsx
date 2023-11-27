@@ -22,6 +22,7 @@ const Banner = () => {
                 width: "100%",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
+                backgroundSize: "cover",
                 backdropFilter: `brightness(20%)`,
               }}
             >

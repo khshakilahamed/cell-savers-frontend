@@ -13,7 +13,7 @@ Cell Savers is a mobile repair booking system project. In this project, users ca
 
 ---
 
-## The main features
+## Main features
 
 - This project is a multi-role-based authentication system and applied authorization using JWT Token.
 - Only customers can register to create an account. The technician account could be created by Admin. Admin account could be created by Super Admin.

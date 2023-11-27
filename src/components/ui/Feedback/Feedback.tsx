@@ -60,7 +60,7 @@ const CustomerFeedback = () => {
       <div className="px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64 text-center mb-20">
         <h2 className="text-3xl">WHAT OUR CUSTOMERS SAID</h2>
         <div className="">
-          <p className="text-center text-sm px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64 py-2">
+          <p className="text-center text-base px-5 lg:px-20 xl:px-50  2xl:px-50 3xl:px-64 pt-2">
             Overcome faithful endless salvation enlightenment salvation overcome
             pious merciful ascetic madness holiest joy passion zarathustra
             suicide overcome snare.

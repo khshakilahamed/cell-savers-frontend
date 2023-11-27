@@ -43,23 +43,24 @@ const Services = () => {
   }
 
   return (
-    <div>
-      <div>
-        <div className="flex items-center">
-          <Input
-            size="large"
-            placeholder="Search here..."
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-[300px]"
-          />
-          <MyButton className="rounded-md">Search</MyButton>
-        </div>
-        <Divider />
-
-        <div className="flex flex-wrap justify-center lg:justify-between gap-5">
-          {services?.map((service) => (
-            <ServiceCard service={service} key={service.id} />
-          ))}
+    <div className="w-full flex justify-center my-20">
+      <div className="px-5 xl:px-0 max-w-[1280px]">
+        <div>
+          <div className="flex items-center">
+            <Input
+              size="large"
+              placeholder="Search here..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-[50%] sm:w-[300px]"
+            />
+            <MyButton className="rounded-md">Search</MyButton>
+          </div>
+          <Divider />
+          <div className="flex flex-wrap justify-center lg:justify-between gap-5">
+            {services?.map((service) => (
+              <ServiceCard service={service} key={service.id} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

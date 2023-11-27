@@ -8,6 +8,7 @@ import FormSelectField, {
 import FormTextArea from "@/components/Forms/FormTextArea";
 import TimeSlotIDField from "@/components/Forms/TimeSlotIDForm";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
+import MyButton from "@/components/ui/Button/Button";
 import Spinner from "@/components/ui/Spinner/Spinner";
 import { useAddBookingMutation } from "@/redux/api/bookingApi";
 import { useAvailableTechniciansQuery } from "@/redux/api/customerAgentApi";
@@ -74,11 +75,8 @@ const SelectedBooking = ({ params }: { params: any }) => {
       ) {
         return message.error("Please fill up the booking form");
       }
-      console.log(data);
 
       const res = await addBooking(data).unwrap();
-
-      console.log(res);
 
       if (res) {
         message.success("Booking created successfully");
@@ -86,7 +84,7 @@ const SelectedBooking = ({ params }: { params: any }) => {
         message.error("Something went wrong");
       }
     } catch (error: any) {
-      console.log(message);
+      // console.log(message);
       message.error(error.message);
     }
   };
@@ -133,13 +131,17 @@ const SelectedBooking = ({ params }: { params: any }) => {
           </div>
 
           <div className="my-3">
-            <Button
-              type="primary"
-              htmlType="submit"
+            {/* <Button type="primary" htmlType="submit">
+              Book Now
+            </Button> */}
+
+            <MyButton
+              type="submit"
+              className="uppercase py-2 px-3"
               disabled={isBookingLoading ? true : false}
             >
               Book Now
-            </Button>
+            </MyButton>
           </div>
         </Form>
       </div>

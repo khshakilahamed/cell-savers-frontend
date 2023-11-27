@@ -7,9 +7,18 @@ import Image from "next/image";
 import Link from "next/link";
 import MyButton from "../Button/Button";
 import BlankImage from "./../../../assets/cameraIcon.png";
+import { useRouter } from "next/navigation";
 
 const ServiceCard = ({ service }: { service: IService }) => {
   const { role } = getUserInfo() as any;
+  const router = useRouter();
+
+  const handleBook = (id: string) => {
+    if (!role) {
+      return router.push("/login");
+    }
+    router.push(`${role}/selected-booking/${id}`);
+  };
 
   return (
     <div className="w-[300px] shadow">
@@ -44,15 +53,18 @@ const ServiceCard = ({ service }: { service: IService }) => {
             &#2547; <span className="font-bold text-lg">{service?.price}</span>
           </p>
           <p>
-            <Link href={`${role}/selected-booking/${service?.id}`}>
-              <MyButton className="uppercase py-2 px-3">Book Now</MyButton>
-            </Link>
+            <MyButton
+              className="uppercase py-2 px-3"
+              onClick={() => handleBook(service?.id)}
+            >
+              Book Now
+            </MyButton>
           </p>
         </div>
         <Divider />
 
         <div>
-          <p className="text-base text-justify">
+          <p className="text-base sm:text-lg text-justify">
             {service?.description.length > 150
               ? service.description.slice(0, 150) + "..."
               : service?.description}

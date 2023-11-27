@@ -9,6 +9,7 @@ import FormSelectField, {
 import FormTextArea from "@/components/Forms/FormTextArea";
 import TimeSlotIDField from "@/components/Forms/TimeSlotIDForm";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
+import MyButton from "@/components/ui/Button/Button";
 import Spinner from "@/components/ui/Spinner/Spinner";
 import { useAddBookingMutation } from "@/redux/api/bookingApi";
 import { useAvailableTechniciansQuery } from "@/redux/api/customerAgentApi";
@@ -132,13 +133,13 @@ const MakeBooking = () => {
           </div>
 
           <div className="my-3">
-            <Button
-              type="primary"
-              htmlType="submit"
+            <MyButton
+              type="submit"
+              className="uppercase py-2 px-3"
               disabled={isLoading ? true : false}
             >
               Book Now
-            </Button>
+            </MyButton>
           </div>
         </Form>
       </div>

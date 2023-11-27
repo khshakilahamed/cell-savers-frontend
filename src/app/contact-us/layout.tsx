@@ -10,7 +10,7 @@ const layout = ({
   return (
     <div>
       <Navbar />
-      <div className=" mt-20">{children}</div>
+      <div className="mt-[64px]">{children}</div>
       <Footer />
     </div>
   );

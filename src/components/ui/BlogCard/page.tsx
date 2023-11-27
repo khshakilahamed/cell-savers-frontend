@@ -55,7 +55,7 @@ const BlogCard = ({
           >
             <h2>{blog?.title}</h2>
           </Link>
-          <p className="text-lg text-justify">
+          <p className="text-base sm:text-lg text-justify">
             {blog?.description.length > 0
               ? `${blog?.description.slice(0, 500)}...`
               : blog?.description}
