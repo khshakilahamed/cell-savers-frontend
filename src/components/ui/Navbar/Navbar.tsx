@@ -34,7 +34,7 @@ const Navbar = () => {
       label: <Link href="/services">Services</Link>,
     },
     {
-      key: "/blog",
+      key: "/blogs",
       label: <Link href="/blogs">Blogs</Link>,
     },
     {
@@ -78,7 +78,8 @@ const Navbar = () => {
               {/* CellSavers */}
               <img
                 className="max-h-[50px] w-auto"
-                src="https://i.ibb.co/hHqy2x6/cell-Savers-logo.png"
+                // src="https://i.ibb.co/hHqy2x6/cell-Savers-logo.png"
+                src="https://res.cloudinary.com/dkpy2zq2x/image/upload/v1702109304/cell-repair/cellSavers-logo_ieoxhh.png"
                 alt="logo"
               />
             </Link>

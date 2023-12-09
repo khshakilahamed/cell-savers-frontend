@@ -44,7 +44,8 @@ const FaqSection = () => {
           <div className="hidden lg:block lg:w-[50%]">
             <img
               className="w-full"
-              src="https://i.ibb.co/0qJnZ17/faq-mobile-store.jpg"
+              // src="https://i.ibb.co/0qJnZ17/faq-mobile-store.jpg"
+              src="https://res.cloudinary.com/dkpy2zq2x/image/upload/v1702110316/cell-repair/faq-mobile-store_mjiryi.jpg"
               alt="mobile image"
             />
           </div>

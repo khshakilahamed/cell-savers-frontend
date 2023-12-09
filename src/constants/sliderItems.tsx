@@ -1,6 +1,13 @@
-const image1 = "https://i.ibb.co/b26269k/slider-4.jpg";
-const image2 = "https://i.ibb.co/6YH29jD/slider-3.jpg";
-const image3 = "https://i.ibb.co/VTD7BK2/slider-31.jpg";
+// const image1 = "https://i.ibb.co/b26269k/slider-4.jpg";
+// const image2 = "https://i.ibb.co/6YH29jD/slider-3.jpg";
+// const image3 = "https://i.ibb.co/VTD7BK2/slider-31.jpg";
+
+const image1 =
+  "https://res.cloudinary.com/dkpy2zq2x/image/upload/v1701682317/cell-repair/slider-4_nf3yzf.jpg";
+const image2 =
+  "https://res.cloudinary.com/dkpy2zq2x/image/upload/v1701682316/cell-repair/slider-3_xcpbye.jpg";
+const image3 =
+  "https://res.cloudinary.com/dkpy2zq2x/image/upload/v1701682317/cell-repair/slider-31_rvpenq.jpg";
 
 export const bannerItems = [
   {

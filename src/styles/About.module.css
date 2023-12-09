@@ -2,7 +2,8 @@
 
 .aboutBanner {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("https://i.ibb.co/7jjVb49/about-us.jpg");
+    /* url("https://i.ibb.co/7jjVb49/about-us.jpg"); */
+      url("https://res.cloudinary.com/dkpy2zq2x/image/upload/v1702110117/cell-repair/about-us_sbtixm.jpg");
   height: "300px";
   width: "100%";
   background-repeat: "no-repeat";

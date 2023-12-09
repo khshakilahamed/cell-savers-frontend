@@ -16,7 +16,8 @@ const RepairStore = () => {
           <div className="md:w-[50%] flex justify-end">
             <img
               className="w-full"
-              src="https://i.ibb.co/GHqD4VK/about-image.png"
+              // src="https://i.ibb.co/GHqD4VK/about-image.png"
+              src="https://res.cloudinary.com/dkpy2zq2x/image/upload/v1702109358/cell-repair/about-image_brtge8.png"
               alt="about mobile"
             />
           </div>

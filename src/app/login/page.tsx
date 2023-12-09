@@ -7,20 +7,36 @@ import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import { SubmitHandler } from "react-hook-form";
 import Link from "next/link";
-import { useUserLoginMutation } from "@/redux/api/authApi";
+import {
+  useForgotPasswordMutation,
+  useUserLoginMutation,
+} from "@/redux/api/authApi";
 import { useRouter } from "next/navigation";
 import { storeUserInfo } from "@/services/auth.service";
+import { useState } from "react";
+import CSModal from "@/components/ui/Modal/CSModal";
+import MyButton from "@/components/ui/Button/Button";
+import CircleSpinner from "@/components/ui/Spinner/CircleSpinner";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { forgotPassSchema } from "@/schemas/forgotPassword";
 
-type FormValues = {
+type LoginFormTypes = {
   email: string;
   password: string;
 };
 
+type ForgotPasswordType = {
+  email: string;
+};
+
 const LoginPage = () => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [userLogin, { isLoading }] = useUserLoginMutation();
+  const [forgotPassword, { isLoading: isForgotLoading }] =
+    useForgotPasswordMutation();
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<LoginFormTypes> = async (data) => {
     try {
       const res = await userLogin(data).unwrap();
       if (res.accessToken && !isLoading) {
@@ -34,6 +50,24 @@ const LoginPage = () => {
       message.error("Something went wrong");
     }
   };
+
+  const handleForgotPassword: SubmitHandler<ForgotPasswordType> = async (
+    data
+  ) => {
+    try {
+      const res: any = await forgotPassword(data);
+
+      if (res?.data) {
+        message.success(res.data);
+        setOpenModal(false);
+      } else {
+        message.error("Something went wrong");
+      }
+    } catch (error) {
+      message.error("Something went wrong");
+    }
+  };
+
   return (
     <div className=" w-full">
       <div className="flex flex-col md:flex-row items-center justify-center w-full min-h-screen gap-5">
@@ -59,7 +93,7 @@ const LoginPage = () => {
                   type="email"
                   size="large"
                   label="Enter your email"
-                  placeholder="abc@gmail.com"
+                  placeholder="Your Email"
                 />
               </div>
               <div className="my-2 min-w-[350px]">
@@ -68,19 +102,31 @@ const LoginPage = () => {
                   type="password"
                   size="large"
                   label="Password"
-                  placeholder="Secret password"
+                  placeholder="********"
                 />
               </div>
-              <p className=" text-red-500 pb-2">Forgot password?</p>
-
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="uppercase"
-                loading={isLoading ? true : false}
+              <p
+                className=" text-red-500 pb-2 cursor-pointer"
+                onClick={() => {
+                  setOpenModal(true);
+                }}
               >
-                Login
-              </Button>
+                Forgot password?
+              </p>
+
+              <MyButton
+                className="rounded-md mt-2"
+                disabled={isLoading ? true : false}
+                type="submit"
+              >
+                {isLoading ? (
+                  <>
+                    <CircleSpinner /> <span className="pl-3">Logging</span>
+                  </>
+                ) : (
+                  "Login"
+                )}
+              </MyButton>
 
               <p className="mt-6">
                 Don&apos;t have account?{" "}
@@ -90,6 +136,45 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      <CSModal
+        title="Forgot Password"
+        isOpen={openModal}
+        closeModal={() => setOpenModal(false)}
+        // handleOk={() => deleteHandler(blogId)}
+        showOkButton={false}
+        showCancelButton={false}
+      >
+        <Form
+          submitHandler={handleForgotPassword}
+          resolver={yupResolver(forgotPassSchema)}
+        >
+          <div className="min-w-[350px]">
+            <FormInput
+              name="email"
+              type="email"
+              size="large"
+              label="Enter your email"
+              placeholder="Your Email"
+            />
+          </div>
+
+          <div className="text-right">
+            <MyButton
+              className="rounded-md mt-2"
+              disabled={isForgotLoading ? true : false}
+              type="submit"
+            >
+              {isForgotLoading ? (
+                <>
+                  <CircleSpinner /> <span className="pl-3">Submitting</span>
+                </>
+              ) : (
+                "Submit"
+              )}
+            </MyButton>
+          </div>
+        </Form>
+      </CSModal>
     </div>
   );
 };
