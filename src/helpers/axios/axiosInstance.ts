@@ -44,7 +44,10 @@ instance.interceptors.response.use(
     // Do something with response error
     const config = error?.config;
 
-    if (error?.response?.status === 403 && !config?.sent) {
+    // console.log(error);
+
+    // if (error?.response?.status === 403 && !config?.sent) {
+    if (error?.response?.status === 500 && !config?.sent) {
       config.sent = true;
       const response = await getNewAccessToken();
       const accessToken = response?.data?.accessToken;
